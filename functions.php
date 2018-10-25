@@ -68,36 +68,33 @@
 		    'description' => 'Meal Pick-Up Schedules',
 		    'hierarchical' => true,
 		    'labels' => [
-			    'add_new' => 'Add New Date',
-			    'all_items' => 'All Dates',
+			    'add_new_item' => 'Add New Pick-Up Date',
+			    'all_items' => 'All Pick-Up Dates',
 			    'archives' => 'Date Archives',
-			    'attributes' => 'Item Attributes',
-			    'edit_item' => 'Edit Date',
+			    'attributes' => 'Date Attributes',
+			    'edit_item' => 'Edit Pick-Up Date',
 			    'featured_image' => 'Date Image',
 			    'insert_into_item' => 'Insert in Date',
-			    'name' => 'Meal Dates',
-			    'new_item' => 'New Date',
+			    'name' => 'Pick-Up Dates',
+			    'new_item' => 'New Pick-Up Date',
 			    'not_found' => 'Item not found',
 			    'not_found_in_trash' => 'Item not found in trash',
 			    'parent_item_colon' => 'Parent Item:',
 			    'search_items' => 'Search Dates',
-			    'singular_name' => 'Date',
+			    'singular_name' => 'Pick-Up Date',
 			    'uploaded_to_this_item' => 'Uploaded to this item',
 			    'view_item' => 'View Item',
 			    'view_items' => 'View Dates'
 		    ],
 		    'menu_icon' => get_bloginfo('stylesheet_directory') . '/images/meal-pickup-date-icon.png',
-		    'menu_position' => -1,
+		    'menu_position' => -2,
 		    'public' => false,
 		    'show_in_menu' => true,
 		    'show_ui' => true,
 		    'supports' => [
-			    'page-attributes',
 			    'custom-fields',
-			    'editor',
-			    'excerpt',
-			    'title',
-			    'trackbacks'
+			    'page-attributes',
+			    'title'
 		    ]
 	    ]);
 
@@ -106,7 +103,8 @@
 		    'description' => 'Menu items sold by Carmella\'s Cuisine',
 	    	'hierarchical' => true,
 	    	'labels' => [
-		    	'add_new' => 'Add New Menu Item',
+		    	'add_new' => 'Add New',
+		    	'add_new_item' => 'Add New Menu Item',
 		    	'all_items' => 'All Items',
 		    	'archives' => 'Menu Item Archives',
 		    	'attributes' => 'Item Attributes',
@@ -125,7 +123,7 @@
 			    'view_items' => 'View Items'
 		    ],
 		    'menu_icon' => get_bloginfo('stylesheet_directory') . '/images/menu-item-icon.png',
-		    'menu_position' => 0,
+		    'menu_position' => -1,
 		    'public' => false,
 		    'show_in_menu' => true,
 		    'show_ui' => true,
@@ -135,8 +133,7 @@
 		    	'editor',
 		    	'excerpt',
 		    	'thumbnail',
-		    	'title',
-			    'trackbacks'
+		    	'title'
 		    ]
 	    ]);
 
@@ -149,7 +146,7 @@
 	    	'description' => 'Orders from Carmella\'s Cuisine Customers',
 		    'hierarchical' => true,
 		    'labels' => [
-			    'add_new' => 'Add New Order',
+			    'add_new_item' => 'Add New Order',
 			    'all_items' => 'All Items',
 			    'archives' => 'Order Archives',
 			    'attributes' => 'Item Attributes',
@@ -168,7 +165,7 @@
 			    'view_items' => 'View Items'
 		    ],
 		    'menu_icon' => get_bloginfo('stylesheet_directory') . '/images/order-icon.png',
-		    'menu_position' => 1,
+		    'menu_position' => 0,
 		    'public' => false,
 		    'show_in_menu' => true,
 		    'show_ui' => true,

@@ -13,14 +13,18 @@
     add_shortcode('secondary_links', 'cc_secondary_links');
     
     //actions
+	add_action('init', 'cc_register_custom_posts');
     add_action( 'widgets_init', 'cc_widgets_init' );
     
     //functions
 
-    /**
-    * gets the featurettes for a given page
-    * 
-    */
+/**
+ * gets the featurettes for a given page
+ *
+ * @param $args
+ *
+ * @return string
+ */
     function page_featurettes($args){
     	
 		$html = '<div class="row">';
@@ -56,6 +60,133 @@
 		
 		return $html;
     }
+
+    function cc_register_custom_posts(){
+
+	    // meal pick-up date
+	    register_post_type('cc_meal_pickup_date', [
+		    'description' => 'Meal Pick-Up Schedules',
+		    'hierarchical' => true,
+		    'labels' => [
+			    'add_new' => 'Add New Date',
+			    'all_items' => 'All Dates',
+			    'archives' => 'Date Archives',
+			    'attributes' => 'Item Attributes',
+			    'edit_item' => 'Edit Date',
+			    'featured_image' => 'Date Image',
+			    'insert_into_item' => 'Insert in Date',
+			    'name' => 'Meal Dates',
+			    'new_item' => 'New Date',
+			    'not_found' => 'Item not found',
+			    'not_found_in_trash' => 'Item not found in trash',
+			    'parent_item_colon' => 'Parent Item:',
+			    'search_items' => 'Search Dates',
+			    'singular_name' => 'Date',
+			    'uploaded_to_this_item' => 'Uploaded to this item',
+			    'view_item' => 'View Item',
+			    'view_items' => 'View Dates'
+		    ],
+		    'menu_icon' => get_bloginfo('stylesheet_directory') . '/images/meal-pickup-date-icon.png',
+		    'menu_position' => -1,
+		    'public' => false,
+		    'show_in_menu' => true,
+		    'show_ui' => true,
+		    'supports' => [
+			    'page-attributes',
+			    'custom-fields',
+			    'editor',
+			    'excerpt',
+			    'title',
+			    'trackbacks'
+		    ]
+	    ]);
+
+    	// menu items
+	    register_post_type('cc_menu_item', [
+		    'description' => 'Menu items sold by Carmella\'s Cuisine',
+	    	'hierarchical' => true,
+	    	'labels' => [
+		    	'add_new' => 'Add New Menu Item',
+		    	'all_items' => 'All Items',
+		    	'archives' => 'Menu Item Archives',
+		    	'attributes' => 'Item Attributes',
+		    	'edit_item' => 'Edit Menu Item',
+		    	'featured_image' => 'Menu Item Image',
+		    	'insert_into_item' => 'Insert in menu item',
+		    	'name' => 'Menu Items',
+			    'new_item' => 'New Menu Item',
+				'not_found' => 'Item not found',
+				'not_found_in_trash' => 'Item not found in trash',
+				'parent_item_colon' => 'Parent Item:',
+				'search_items' => 'Search Items',
+			    'singular_name' => 'Menu Item',
+			    'uploaded_to_this_item' => 'Uploaded to this item',
+			    'view_item' => 'View Item',
+			    'view_items' => 'View Items'
+		    ],
+		    'menu_icon' => get_bloginfo('stylesheet_directory') . '/images/menu-item-icon.png',
+		    'menu_position' => 0,
+		    'public' => false,
+		    'show_in_menu' => true,
+		    'show_ui' => true,
+		    'supports' => [
+		    	'page-attributes',
+		    	'custom-fields',
+		    	'editor',
+		    	'excerpt',
+		    	'thumbnail',
+		    	'title',
+			    'trackbacks'
+		    ]
+	    ]);
+
+
+	    // menu items
+	    register_post_type('cc_orders', [
+		    'capabilities' => [
+		    	'read_post'
+		    ],
+	    	'description' => 'Orders from Carmella\'s Cuisine Customers',
+		    'hierarchical' => true,
+		    'labels' => [
+			    'add_new' => 'Add New Order',
+			    'all_items' => 'All Items',
+			    'archives' => 'Order Archives',
+			    'attributes' => 'Item Attributes',
+			    'edit_item' => 'Edit Order',
+			    'featured_image' => 'Order Image',
+			    'insert_into_item' => 'Insert in Order',
+			    'name' => 'Orders',
+			    'new_item' => 'New Order',
+			    'not_found' => 'Item not found',
+			    'not_found_in_trash' => 'Item not found in trash',
+			    'parent_item_colon' => 'Parent Item:',
+			    'search_items' => 'Search Items',
+			    'singular_name' => 'Order',
+			    'uploaded_to_this_item' => 'Uploaded to this item',
+			    'view_item' => 'View Item',
+			    'view_items' => 'View Items'
+		    ],
+		    'menu_icon' => get_bloginfo('stylesheet_directory') . '/images/order-icon.png',
+		    'menu_position' => 1,
+		    'public' => false,
+		    'show_in_menu' => true,
+		    'show_ui' => true,
+		    'supports' => [
+			    'page-attributes',
+			    'custom-fields',
+			    'editor',
+			    'excerpt',
+			    'thumbnail',
+			    'title',
+			    'trackbacks'
+		    ]
+	    ]);
+
+
+
+
+    }
     
     /**
     * renders a promotional overlay pop-up
@@ -65,7 +196,6 @@
     function cc_render_home_popup(){
 		
 		//vars
-		$html = '';
 		$pop_up = new HomePopUp();
 		if ($pop_up->is_active()):
 			$html = '<div id="home-pop-up" class="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">';

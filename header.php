@@ -64,7 +64,7 @@
 
 	            </div>
             <?php endif; ?>
-                <div id="secondary-masthead" class="hidden-xs col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">
+                <div id="secondary-masthead" class="col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">
                 	<?php get_template_part('content-parts/secondary-menu'); ?>
                 </div>
             <?php if (!is_front_page()): ?>

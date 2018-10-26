@@ -67,27 +67,31 @@
     	// query the upcoming stuff
 	    $pickup_dates = cc_upcoming_pickup_dates();
 		$pickup_dates_html = '';
-		foreach ($pickup_dates as $pickup):
-			$date = get_field('pick_up_date', $pickup->ID, true);
-			$menu_items = get_field('menu_items_for_date', $pickup->ID, false);
-			$items_html = '';
-			foreach ($menu_items as $item_id):
-				$item = get_post($item_id);
-				$items_html .= '<li>' . $item->post_title . '</li>';
-			endforeach;
+		if (empty($pickup_dates)):
+			$pickup_dates_html = 'No dates currently available';
+		else:
+			foreach ($pickup_dates as $pickup):
+				$date = get_field('pick_up_date', $pickup->ID, true);
+				$menu_items = get_field('menu_items_for_date', $pickup->ID, false);
+				$items_html = '';
+				foreach ($menu_items as $item_id):
+					$item = get_post($item_id);
+					$items_html .= '<li>' . $item->post_title . '</li>';
+				endforeach;
 
-			$pickup_dates_html .= '
-				<div class="pick-up-date col-xs-6 col-sm-4 col-md-3" data-date_id="' . $pickup->ID .'">
-					<div class="pick-up-date-inner">
-						<h2>' . $date . '</h2>
-						<h3>Menu Options</h3>
-						<ul>
-							' . $items_html . '
-						</ul>
+				$pickup_dates_html .= '
+					<div class="pick-up-date col-xs-6 col-sm-4 col-md-3" data-date_id="' . $pickup->ID .'">
+						<div class="pick-up-date-inner">
+							<h2>' . $date . '</h2>
+							<h3>Menu Options</h3>
+							<ul>
+								' . $items_html . '
+							</ul>
+						</div>
 					</div>
-				</div>
-			';
-		endforeach;
+				';
+			endforeach;
+		endif;
 
     	return '
     	    <form id="order-meal-app">

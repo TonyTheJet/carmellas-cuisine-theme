@@ -10,6 +10,7 @@
 	
 	//shortcodes
 	add_shortcode('add_page_featurettes', 'page_featurettes');
+	add_shortcode('meal_order_page', 'cc_meal_order_page');
     add_shortcode('secondary_links', 'cc_secondary_links');
     
     //actions
@@ -59,6 +60,160 @@
 		$html .= '</div>';
 		
 		return $html;
+    }
+
+    function cc_meal_order_page(){
+
+    	// query the upcoming stuff
+	    $pickup_dates = cc_upcoming_pickup_dates();
+		$pickup_dates_html = '';
+		foreach ($pickup_dates as $pickup):
+			$date = get_field('pick_up_date', $pickup->ID, true);
+			$menu_items = get_field('menu_items_for_date', $pickup->ID, false);
+			$items_html = '';
+			foreach ($menu_items as $item_id):
+				$item = get_post($item_id);
+				$items_html .= '<li>' . $item->post_title . '</li>';
+			endforeach;
+
+			$pickup_dates_html .= '
+				<div class="pick-up-date col-xs-6 col-sm-4 col-md-3" data-date_id="' . $pickup->ID .'">
+					<div class="pick-up-date-inner">
+						<h2>' . $date . '</h2>
+						<h3>Menu Options</h3>
+						<ul>
+							' . $items_html . '
+						</ul>
+					</div>
+				</div>
+			';
+		endforeach;
+
+    	return '
+    	    <form id="order-meal-app">
+    	    	<div id="order-meal-step-list-wrapper" class="row">
+    	    		<div id="order-meal-step-1" class="order-meal-step active">
+    	    			<h2>1. Choose Pick-Up Date</h2>
+					</div>
+					<div id="order-meal-step-2" class="order-meal-step">
+						<h2>2. Choose Items and Quantities</h2>
+					</div>
+					<div id="order-meal-step-3" class="order-meal-step">
+						<h2>3. Enter Your Information</h2>
+					</div>
+					<div id="order-meal-step-4" class="order-meal-step">
+						<h2>4. Receive Confirmation Email</h2>
+					</div>
+				</div>
+				<div id="order-meal-body-wrapper">
+					<div id="order-meal-step-1-body" class="order-meal-step-body">
+						<div class="row">
+							<div class="col-xs-12">
+								<h1>Choose a Meal Pick-Up Date</h1>
+							</div>
+							' . $pickup_dates_html . '
+						</div>
+						<div class="row">
+							<div class="col-xs-12 text-right">
+								<button type="button" class="btn btn-primary load-step" data-load_step="2" id="step-1-continue-btn" disabled>Continue</button>
+							</div>
+						</div>
+					</div>
+					<div id="order-meal-step-2-body" class="order-meal-step-body hidden">
+						<div class="row">
+							<div class="col-xs-12">
+								<h1>Please Choose Your Items</h1>
+								<div id="meal-items"><img class="center-block" src="' . get_bloginfo('stylesheet_directory') . '/images/eclipse-1s-200px.gif' . '"</div>
+								<div class="row text-right" id="totals-row">
+									<div class="col-xs-12">
+										<strong>Subtotal:</strong> $<span id="order-subtotal">0.00</span>
+									</div>
+									<div class="col-xs-12">
+										<strong>Sales Tax:</strong> $<span id="order-sales_tax">0.00</span>
+									</div>
+									<div class="col-xs-12">
+										<strong>TOTAL:</strong> $<span id="order-total">0.00</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12">
+								<div class="pull-left">
+									<button type="button" class="btn btn-default load-step" data-load_step="1">Back</button>
+								</div>
+								<div class="pull-right">
+									<button type="button" class="btn btn-primary load-step" disabled data-load_step="3">Continue</button>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+					<div id="order-meal-step-3-body" class="order-meal-step-body hidden">
+						<div class="row">
+							<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+							  <div class="modal-dialog" role="document">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							        <h4 class="modal-title" id="myModalLabel">Confirm Order</h4>
+							      </div>
+							      <div class="modal-body">
+							      		Are you sure you\'d like to place this order for $<span id="order-total"></span>?
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							        <button type="button" class="btn btn-primary">Save changes</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						</div>
+						<div class="pull-left">
+							<button type="button" class="btn btn-default load-step" data-load_step="2">Back</button>
+						</div>
+						<button type="button" class="btn btn-primary load-step" disabled data-load_step="4">Place Order</button>
+					</div>
+					<div id="order-meal-step-4-body" class="order-meal-step-body hidden">
+						<div class="row">
+							<div class="col-xs-12">
+								<h1>SUCCESS!</h1>
+								Thank you for your order! Your order details are below. Please arrive between 11:00 a.m. and 6:00 p.m. on the date of your pick-up. <u>Payment is made upon pick-up in the form of either cash or credit card</u>.
+							</div>
+						</div>
+					</div>
+				</div>
+    	    </form>
+    	    <script type="text/javascript" src="' . get_bloginfo('stylesheet_directory') . '/js/meal-order.js"></script>
+    	';
+    }
+
+    function cc_upcoming_pickup_dates(){
+    	$raw_posts = get_posts(
+    		[
+    			'numberposts' => 100,
+    			'order' => 'DESC',
+    			'orderby' => 'date',
+    			'post_status' => 'publish',
+    			'post_type' => 'cc_meal_pickup_date'
+		    ]
+	    );
+
+    	// filter them to just future posts, and a maximum of 12
+	    $filtered_posts = [];
+	    foreach ($raw_posts as $post):
+	        if (count($filtered_posts) >= 12):
+		        break;
+	        endif;
+
+	        $last_pickup_datetime = new DateTime(get_field('orderby_date_time', $post->ID, false));
+	        if ($last_pickup_datetime->getTimestamp() > time()):
+		        $filtered_posts[] = $post;
+	        endif;
+	    endforeach;
+
+	    // reverse the order of the array so the customer gets the earliest date first
+    	return array_reverse($filtered_posts);
     }
 
     function cc_register_custom_posts(){

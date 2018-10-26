@@ -298,6 +298,64 @@ a:hover{
 }
 /***********************/
 
+
+/* order page */
+#order-meal-step-list-wrapper {
+    margin: 16px 0;
+}
+
+#order-meal-app h1 {
+    font-family: 'Lato', sans-serif;;
+}
+
+.order-meal-step {
+    background: #333;
+    color: #fff;
+    display: block;
+    float: left;
+    margin: 0 1px 0 0;
+    padding: 16px 8px;
+}
+
+.order-meal-step.active {
+    background: #a3d663;
+}
+
+.order-meal-step h2 {
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+.pick-up-date:hover .pick-up-date-inner, .pick-up-date.selected .pick-up-date-inner {
+    background-color: #a3d663;
+}
+
+.pick-up-date-inner {
+    background-color: #ababab;
+    color: #fff;
+    cursor: pointer;
+    min-height: 260px;
+    padding: 16px;
+}
+
+.pick-up-date h3 {
+    font-family: 'Lato', sans-serif;
+}
+
+#order-meal-body-wrapper {
+    min-height: 460px;
+}
+
+#totals-row {
+    border-top: 4px solid #333;
+    margin-bottom: 16px;
+    margin-top: 16px;
+    padding-top: 16px;
+}
+
+/* end order page */
+
 /* footer */
 
 #footer-wrapper{

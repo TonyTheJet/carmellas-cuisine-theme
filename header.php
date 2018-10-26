@@ -54,7 +54,7 @@
                 <i class="fa fa-list-alt"></i> &nbsp; <a href="http://www.carmellascuisine.com/contact-us">contact </a>
             </div>
         </div>
-        <div id="header" class="row">
+        <div id="header" class="container-fluid">
             <?php if (is_front_page()): ?>
 	            <div id="masthead" class="col-xs-12">
 	                <img src="<?php bloginfo('stylesheet_directory'); ?>/images/header_pic_home.jpg" class="img-responsive hidden-xs hidden-sm hidden-md" alt="Welcome to Carmella's Cuisine">

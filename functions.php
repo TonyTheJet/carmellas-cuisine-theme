@@ -1,23 +1,32 @@
 <?php
 
-	//include classes
-	include('model/HomePopUp.php');
-	include('model/Sidebar.php');
+//include classes
+include('model/HomePopUp.php');
+include('model/Sidebar.php');
 
-    //theme setup
-    show_admin_bar(true);
-    add_theme_support('post-thumbnails');
-	
-	//shortcodes
-	add_shortcode('add_page_featurettes', 'page_featurettes');
-	add_shortcode('meal_order_page', 'cc_meal_order_page');
-    add_shortcode('secondary_links', 'cc_secondary_links');
-    
-    //actions
-	add_action('init', 'cc_register_custom_posts');
-    add_action( 'widgets_init', 'cc_widgets_init' );
-    
-    //functions
+//theme setup
+show_admin_bar(true);
+add_theme_support('post-thumbnails');
+
+//shortcodes
+add_shortcode('add_page_featurettes', 'page_featurettes');
+add_shortcode('meal_order_page', 'cc_meal_order_page');
+add_shortcode('secondary_links', 'cc_secondary_links');
+
+//actions
+add_action('init', 'cc_register_custom_posts');
+add_action('widgets_init', 'cc_widgets_init');
+
+// AJAX
+if (!empty($_POST['action']) && $_POST['action'] === 'fetch_items_for_pickup_date'):
+	cc_ajax_fetch_items_for_pickup_date();
+endif;
+// end AJAX
+
+
+
+
+//functions
 
 /**
  * gets the featurettes for a given page
@@ -60,6 +69,42 @@
 		$html .= '</div>';
 		
 		return $html;
+    }
+
+    function cc_ajax_fetch_items_for_pickup_date(){
+    	$return_arr = [
+		    'message' => 'No post ID supplied',
+    		'pickup_date' => null,
+		    'pickup_date_date_string' => '',
+		    'pickup_date_items' => [],
+    		'success' => false
+	    ];
+    	if (!empty($_POST['post_id'])):
+	        $post = get_post((int) $_POST['post_id']);
+    	    if (!empty($post) && $post->post_type === 'cc_meal_pickup_date'):
+		        $return_arr['pickup_date_date_string'] = get_post_meta($post->ID, 'pick_up_date', true);
+    	        $menu_items_for_date = get_post_meta($post->ID, 'menu_items_for_date', true);
+    	        $i = 0;
+    	        foreach ($menu_items_for_date as $menu_item_id):
+	                $menu_item = get_post($menu_item_id);
+    	            $return_arr['pickup_date_items'][$i]['basic_data'] = get_post($menu_item_id);
+    	            $return_arr['pickup_date_items'][$i]['bulk_price'] = get_post_meta($menu_item_id, 'bulk_price', true);
+		            $return_arr['pickup_date_items'][$i]['minimum_bulk_price_quantity'] = get_post_meta($menu_item_id, 'minimum_bulk_price_quantity', true);
+    	            $return_arr['pickup_date_items'][$i]['price'] = get_post_meta($menu_item_id, 'price', true);
+    	            $return_arr['pickup_date_items'][$i]['thumbnail_url'] = get_the_post_thumbnail_url($menu_item_id, 'post-thumbnail');
+    	            $i++;
+	            endforeach;
+
+
+		        $return_arr['message'] = 'success';
+		        $return_arr['pickup_date'] = $post;
+		        $return_arr['success'] = true;
+	        endif;
+    	endif;
+
+    	echo json_encode($return_arr);
+
+    	exit();
     }
 
     function cc_meal_order_page(){
@@ -127,7 +172,7 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<h1>Please Choose Your Items</h1>
-								<div id="meal-items"><img class="center-block" src="' . get_bloginfo('stylesheet_directory') . '/images/eclipse-1s-200px.gif' . '"</div>
+								<div id="meal-items"><img class="center-block" src="' . get_bloginfo('stylesheet_directory') . '/images/eclipse-1s-200px.gif' . '" /></div>
 								<div class="row text-right" id="totals-row">
 									<div class="col-xs-12">
 										<strong>Subtotal:</strong> $<span id="order-subtotal">0.00</span>
@@ -147,7 +192,7 @@
 									<button type="button" class="btn btn-default load-step" data-load_step="1">Back</button>
 								</div>
 								<div class="pull-right">
-									<button type="button" class="btn btn-primary load-step" disabled data-load_step="3">Continue</button>
+									<button type="button" class="btn btn-primary load-step" id="step-2-continue-btn" disabled data-load_step="3">Continue</button>
 								</div>
 							</div>
 						</div>
@@ -176,7 +221,7 @@
 						<div class="pull-left">
 							<button type="button" class="btn btn-default load-step" data-load_step="2">Back</button>
 						</div>
-						<button type="button" class="btn btn-primary load-step" disabled data-load_step="4">Place Order</button>
+						<button type="button" class="btn btn-primary load-step" id="step-3-continue-btn" disabled data-load_step="4">Place Order</button>
 					</div>
 					<div id="order-meal-step-4-body" class="order-meal-step-body hidden">
 						<div class="row">
@@ -188,6 +233,10 @@
 					</div>
 				</div>
     	    </form>
+    	    <script type="text/javascript">
+    	    	var ajaxurl = "' . admin_url('admin-ajax.php') . '";
+    	    	var stylesheet_directory = "' . get_bloginfo('stylesheet_directory') . '";
+			</script>
     	    <script type="text/javascript" src="' . get_bloginfo('stylesheet_directory') . '/js/meal-order.js"></script>
     	';
     }

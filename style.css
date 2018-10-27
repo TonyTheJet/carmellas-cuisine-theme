@@ -317,6 +317,10 @@ a:hover{
     padding: 16px 8px;
 }
 
+.order-meal-step-body {
+    padding-bottom: 20px;
+}
+
 .order-meal-step.active {
     background: #a3d663;
 }
@@ -352,6 +356,29 @@ a:hover{
     margin-bottom: 16px;
     margin-top: 16px;
     padding-top: 16px;
+}
+
+#meal-items h3 {
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    text-align: center;
+}
+
+#meal-items .meal-item .meal-item-img-wrapper {
+    background-position: center;
+    background-size: cover;
+    height: 200px;
+}
+
+#meal-items .meal-item .price {
+    padding: 3px 6px;
+    text-align: right;
+}
+
+#meal-items .meal-item .quantity-wrapper {
+    background-color: #efefef;
+    padding: 6px;
+    text-align: right;
 }
 
 /* end order page */

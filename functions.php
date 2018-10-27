@@ -173,15 +173,34 @@ endif;
 							<div class="col-xs-12">
 								<h1>Please Choose Your Items</h1>
 								<div id="meal-items"><img class="center-block" src="' . get_bloginfo('stylesheet_directory') . '/images/eclipse-1s-200px.gif' . '" /></div>
-								<div class="row text-right" id="totals-row">
-									<div class="col-xs-12">
-										<strong>Subtotal:</strong> $<span id="order-subtotal">0.00</span>
-									</div>
-									<div class="col-xs-12">
-										<strong>Sales Tax:</strong> $<span id="order-sales_tax">0.00</span>
-									</div>
-									<div class="col-xs-12">
-										<strong>TOTAL:</strong> $<span id="order-total">0.00</span>
+								<div class="row">
+									<div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-6">
+										<table class="table table-condensed table-bordered text-right" id="totals-row">
+											<tr>
+												<td>
+													<strong>Subtotal:</strong> 
+												</td>
+												<td>
+													$<span id="order-subtotal">0.00</span>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<strong>Sales Tax:</strong> 
+												</td>
+												<td>
+													$<span id="order-sales_tax">0.00</span>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<strong>TOTAL:</strong> 		
+												</td>
+												<td>
+													$<span id="order-total">0.00</span>
+												</td>
+											</tr>
+										</table>
 									</div>
 								</div>
 							</div>
@@ -200,6 +219,55 @@ endif;
 					</div>
 					<div id="order-meal-step-3-body" class="order-meal-step-body hidden">
 						<div class="row">
+							<div class="col-xs-12 col-md-6">
+								<h1>Enter Your Information</h1>
+								<div class="form-group">
+									<label for="customer-name">Name</label>
+									<input type="text" id="customer-name" class="form-control customer-info" maxlength="100" placeholder="Jane Doe" required />
+								</div>
+								<div class="form-group">
+									<label for="customer-email">Email</label>
+									<input type="email" id="customer-email" class="form-control customer-info" maxlength="100" placeholder="my-email@gmail.com" required />
+								</div>
+								<div class="form-group">
+									<label for="customer-phone">Phone</label>
+									<input type="text" id="customer-phone" class="form-control customer-info" maxlength="100" placeholder="801.123.4560" required />
+								</div>
+								<div class="form-group">
+									<label for="customer-notes">Notes</label>
+									<textarea class="form-control customer-info" id="customer-notes" placeholder="Allergic to nuts; Will pick up around 3:30 p.m., etc."></textarea>
+								</div>
+							</div>
+							<div class="col-xs-12 col-md-6">
+								<h1>Order Summary</h1>
+								<p><strong><u>Payment is made upon pick-up</u></strong> via Venmo, credit card, or cash.</p>
+								<table class="table table-striped table-bordered table-condensed table-responsive" id="order-summary">
+									<thead>
+										<tr>
+											<th>Item</th>
+											<th>Quantity</th>
+											<th>Price ea.</th>
+										</tr>
+									</thead>
+									<tbody>
+									
+									</tbody>
+									<tfoot>
+										<tr>
+											<td colspan="2">Subtotal</td>
+											<td id="order-summary-subtotal" class="text-right">$0.00</td>
+										</tr>
+										<tr>
+											<td colspan="2">Sales Tax</td>
+											<td id="order-summary-sales_tax" class="text-right">$0.00</td>
+										</tr>
+										<tr class="active">
+											<td colspan="2"><strong class="secondary-color">Amount Due at Pick-Up</strong></td>
+											<td class="text-right"><strong id="order-summary-total">$0.00</strong></td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
 							<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 							  <div class="modal-dialog" role="document">
 							    <div class="modal-content">
@@ -221,7 +289,7 @@ endif;
 						<div class="pull-left">
 							<button type="button" class="btn btn-default load-step" data-load_step="2">Back</button>
 						</div>
-						<button type="button" class="btn btn-primary load-step" id="step-3-continue-btn" disabled data-load_step="4">Place Order</button>
+						<div class="pull-right"><button type="submit" class="btn btn-primary load-step" id="step-3-continue-btn" disabled data-load_step="4">Place Order</button></div>
 					</div>
 					<div id="order-meal-step-4-body" class="order-meal-step-body hidden">
 						<div class="row">

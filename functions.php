@@ -19,6 +19,7 @@ add_action('init', 'cc_register_custom_posts');
 add_action('widgets_init', 'cc_widgets_init');
 
 // filters
+add_filter('wp_mail_content_type', 'cc_mail_content_type');
 add_filter('wp_mail_from_name', 'cc_mail_from_name');
 
 // AJAX
@@ -398,7 +399,6 @@ endif;
 		    ];
 	    	$customer_subject = 'Your Carmella\'s Cuisine Pick-Up Confirmation (#' . $post->ID . ')';
 	    	$owner_subject = 'New CarmellasCuisine.com Order #' . $post_id;
-	    	apply_filters('wp_mail_content_type', 'cc_mail_content_type');
 		    $headers =[
 		    	'Content-Type: text/html; charset=UTF-8',
 			    'From' => 'no-reply@' . $_SERVER['SERVER_NAME'],

@@ -203,7 +203,7 @@ MealOrder.prototype.load_step_4 = function(){
     // format order items
     var order_items_str = '';
     for (var i = 0; i < this.order_items.length; i++){
-        order_items_str += this.order_items[i].to_string() + '<br>';
+        order_items_str += this.order_items[i].to_string() + "\n";
     }
 
     $.post(

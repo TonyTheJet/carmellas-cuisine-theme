@@ -130,10 +130,11 @@ endif;
 	        $return_arr['message'] = 'success';
 
     	    // create the basic order post
+		    $order_date = new DateTime('now', new DateTimeZone(get_option('timezone_string')));
 			$post_arr = [
 				'ID' => 0,
 				'post_status' => 'publish',
-				'post_title' => date('Y-m-d H:i:s') . ' for ' . $_POST['order']['customer_name'],
+				'post_title' => 'Pick-Up for ' . $_POST['order']['customer_name'],
 				'post_type' => 'cc_orders'
 			];
 		    $post_id = wp_insert_post($post_arr, true);
@@ -142,7 +143,6 @@ endif;
 
 				// get the pick-up date
 				$pick_up_date = get_post_meta($_POST['order']['pickup_date_id'], 'pick_up_date', true);
-				$order_date = new DateTime('now', new DateTimeZone(get_option('timezone_string')));
 
 				// save the meta fields
 				add_post_meta($post_id, 'customer_name', $_POST['order']['customer_name']);
@@ -446,7 +446,7 @@ endif;
 						</tr>
 						<tr>
 							<td><strong>Notes: </strong></td>
-							<td>' . get_post_meta($post_id, 'customer_notes') . '</td>
+							<td>' . nl2br(get_post_meta($post_id, 'customer_notes')) . '</td>
 						</tr>
 					</table>
 	    	    </div>

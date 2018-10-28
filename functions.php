@@ -18,6 +18,9 @@ add_shortcode('secondary_links', 'cc_secondary_links');
 add_action('init', 'cc_register_custom_posts');
 add_action('widgets_init', 'cc_widgets_init');
 
+// filters
+add_filter('wp_mail_from_name', 'cc_mail_from_name');
+
 // AJAX
 if (!empty($_POST['action'])):
 	switch($_POST['action']):
@@ -389,12 +392,13 @@ endif;
 	    // make sure it's an order type
 	    if ($post->post_type === 'cc_orders'){
 		    $recipients = [
-			    'customer' => get_post_meta($post_id, 'customer_email'),
+			    'customer' => get_post_meta($post_id, 'customer_email', true),
 			    //'owner' => 'carmellas.cuisine@gmail.com',
 			    'developer' => 'tony@tony-anderson.info'
 		    ];
 	    	$customer_subject = 'Your Carmella\'s Cuisine Pick-Up Confirmation (#' . $post->ID . ')';
 	    	$owner_subject = 'New CarmellasCuisine.com Order #' . $post_id;
+	    	apply_filters('wp_mail_content_type', 'cc_mail_content_type');
 		    $headers =[
 		    	'Content-Type: text/html; charset=UTF-8',
 			    'From' => 'no-reply@' . $_SERVER['SERVER_NAME'],
@@ -406,31 +410,27 @@ endif;
 	    	    	<table>
 	    	    		<tr>
 	    	    			<td><strong>Pick-Up Date: </strong></td>
-	    	    			<td>' . get_post_meta($post_id, 'pickup_date') . '</td>
+	    	    			<td>' . get_post_meta($post_id, 'pickup_date', true) . '</td>
 						</tr>
 	    	    		<tr>
 							<td><strong>Order #: </strong></td>
 							<td>' . $post_id . '</td>
 						</tr>
 						<tr>
-							<td><strong>Order Date: </strong></td>
-							<td>' . date('m/d/Y H:i:s', strtotime(get_post_meta($post_id, 'order_date'))) . '</td>
-						</tr>
-						<tr>
 							<td><strong>Subtotal: </strong></td>
-							<td style="text-align: right;">$' . get_post_meta($post_id, 'subtotal') . '</td>
+							<td style="text-align: right;">$' . get_post_meta($post_id, 'subtotal', true) . '</td>
 						</tr>
 						<tr>
 							<td><strong>Sales Tax: </strong></td>
-							<td style="text-align: right">$' . get_post_meta($post_id, 'sales_tax') . '</td>
+							<td style="text-align: right">$' . get_post_meta($post_id, 'sales_tax', true) . '</td>
 						</tr>
 						<tr>
 							<td><strong>Total: </strong></td>
-							<td style="text-align: right;">$' . get_post_meta($post_id, 'total') . '</td>
+							<td style="text-align: right;">$' . get_post_meta($post_id, 'total', true) . '</td>
 						</tr>
 	    	    		<tr>
 	    	    			<td><strong>Name: </strong></td>
-	    	    			<td>' . get_post_meta($post_id, 'customer_name') . '</td>
+	    	    			<td>' . get_post_meta($post_id, 'customer_name', true) . '</td>
 						</tr>
 						<tr>
 	    	    			<td><strong>Email: </strong></td>
@@ -438,15 +438,15 @@ endif;
 						</tr>
 						<tr>
 							<td><strong>Phone: </strong></td>
-							<td>' . get_post_meta($post_id, 'customer_phone') . '</td>
+							<td>' . get_post_meta($post_id, 'customer_phone', true) . '</td>
 						</tr>
 						<tr>
 							<td><strong>Items: </strong></td>
-							<td>' . get_post_meta($post_id, 'order_items') . '</td>
+							<td>' . get_post_meta($post_id, 'order_items', true) . '</td>
 						</tr>
 						<tr>
 							<td><strong>Notes: </strong></td>
-							<td>' . nl2br(get_post_meta($post_id, 'customer_notes')) . '</td>
+							<td>' . nl2br(get_post_meta($post_id, 'customer_notes', true)) . '</td>
 						</tr>
 					</table>
 	    	    </div>
@@ -603,6 +603,14 @@ endif;
 
 
 
+    }
+
+    function cc_mail_content_type(){
+    	return 'text/html';
+    }
+
+    function cc_mail_from_name(){
+    	return 'Carmell\'s Cuisine';
     }
     
     /**

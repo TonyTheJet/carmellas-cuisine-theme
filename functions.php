@@ -610,7 +610,7 @@ endif;
     }
 
     function cc_mail_from_name(){
-    	return 'Carmell\'s Cuisine';
+    	return 'Carmella\'s Cuisine';
     }
     
     /**

@@ -469,6 +469,10 @@ a:hover{
     box-shadow: 0 0 16px 0 rgba(0,0,0,0.15);
 }
 
+.pick-up-date {
+    margin-bottom: 20px;
+}
+
 .secondary-color {
     color: #da2975;
 }

@@ -1,5 +1,6 @@
 <?php
 
+
 //include classes
 include('model/HomePopUp.php');
 include('model/Sidebar.php');
@@ -26,6 +27,13 @@ if (!empty($_POST['action'])):
 		case 'save_meal_order':
 			cc_ajax_save_meal_order();
 			break;
+		default:
+			echo json_encode(
+				[
+					'message' => 'Unknown action specified',
+					'success' => false
+				]
+			);
 	endswitch;
 endif;
 // end AJAX
@@ -122,18 +130,39 @@ endif;
 	        $return_arr['message'] = 'success';
 
     	    // create the basic order post
-			$post_id = $post_arr = [
+			$post_arr = [
 				'ID' => 0,
-				'post_title' => date('Y-m-d H:i:s') . ' for ' . $_POST['customer_name']
+				'post_status' => 'publish',
+				'post_title' => date('Y-m-d H:i:s') . ' for ' . $_POST['order']['customer_name'],
+				'post_type' => 'cc_orders'
 			];
-			if ($post_id !== 0):
+		    $post_id = wp_insert_post($post_arr, true);
+
+			if (!$post_id instanceof WP_Error):
+
+				// get the pick-up date
+				$pick_up_date = get_post_meta($_POST['order']['pickup_date_id'], 'pick_up_date', true);
+				$order_date = new DateTime('now', new DateTimeZone(get_option('timezone_string')));
 
 				// save the meta fields
+				add_post_meta($post_id, 'customer_name', $_POST['order']['customer_name']);
+				add_post_meta($post_id, 'customer_email', $_POST['order']['customer_email']);
+				add_post_meta($post_id, 'customer_phone', $_POST['order']['customer_phone']);
+				add_post_meta($post_id, 'customer_notes', $_POST['order']['customer_notes']);
+				add_post_meta($post_id, 'order_date', $order_date->format('Y-m-d H:i:s'));
+				add_post_meta($post_id, 'order_items', $_POST['order']['order_items']);
+				add_post_meta($post_id, 'pickup_date', $pick_up_date);
+				add_post_meta($post_id, 'sales_tax', $_POST['order']['sales_tax']);
+				add_post_meta($post_id, 'subtotal', $_POST['order']['subtotal']);
+				add_post_meta($post_id, 'total', $_POST['order']['total']);
 
 		        // send the email
+				cc_send_order_confirmation_emails($post_id);
 
-
+				$return_arr['message'] = 'success';
 	            $return_arr['success'] = true;
+			else:
+				$return_arr['message'] = $post_id->get_error_message();
 			endif;
 	    endif;
 
@@ -268,7 +297,7 @@ endif;
 									<input type="text" id="customer-phone" class="form-control customer-info" maxlength="100" placeholder="801.123.4560" required />
 								</div>
 								<div class="form-group">
-									<label for="customer-notes">Notes</label>
+									<label for="customer-notes">Notes (please specify approximate pick-up time and any other details to ensure a fresh, warm meal)</label>
 									<textarea class="form-control customer-info" id="customer-notes" placeholder="Allergic to nuts; Will pick up around 3:30 p.m., etc."></textarea>
 								</div>
 							</div>
@@ -332,7 +361,7 @@ endif;
 								<h1>SUCCESS!</h1>
 								Thank you for your order! An email has been sent to you to confirm your order. 
 								<br>
-								Please arrive between 11:00 a.m. and 6:00 p.m. on the date of your pick-up. <u>Payment is made upon pick-up in the form of either cash or credit card</u>.
+								Please arrive between 12:00 p.m. and 6:00 p.m. on the date of your pick-up. <u>Payment is made upon pick-up in the form of either cash or credit card</u>.
 							</div>
 							<div class="col-xs-12 hidden" id="step-4-error-message">
 								<h1>Oops! Something went wrong!</h1>
@@ -350,6 +379,84 @@ endif;
 			</script>
     	    <script type="text/javascript" src="' . get_bloginfo('stylesheet_directory') . '/js/meal-order.js"></script>
     	';
+    }
+
+    function cc_send_order_confirmation_emails(int $post_id){
+
+    	// get the post
+	    $post = get_post($post_id);
+
+	    // make sure it's an order type
+	    if ($post->post_type === 'cc_orders'){
+		    $recipients = [
+			    'customer' => get_post_meta($post_id, 'customer_email'),
+			    //'owner' => 'carmellas.cuisine@gmail.com',
+			    'developer' => 'tony@tony-anderson.info'
+		    ];
+	    	$customer_subject = 'Your Carmella\'s Cuisine Pick-Up Confirmation (#' . $post->ID . ')';
+	    	$owner_subject = 'New CarmellasCuisine.com Order #' . $post_id;
+		    $headers =[
+		    	'Content-Type: text/html; charset=UTF-8',
+			    'From' => 'no-reply@' . $_SERVER['SERVER_NAME'],
+			    'Reply-To' => 'no-reply@' . $_SERVER['SERVER_NAME']
+		    ];
+	    	$html = '
+	    	    <div>
+	    	    	<h2>Thanks for Choosing Carmella\'s Cuisine!</h2>
+	    	    	<table>
+	    	    		<tr>
+	    	    			<td><strong>Pick-Up Date: </strong></td>
+	    	    			<td>' . get_post_meta($post_id, 'pickup_date') . '</td>
+						</tr>
+	    	    		<tr>
+							<td><strong>Order #: </strong></td>
+							<td>' . $post_id . '</td>
+						</tr>
+						<tr>
+							<td><strong>Order Date: </strong></td>
+							<td>' . date('m/d/Y H:i:s', strtotime(get_post_meta($post_id, 'order_date'))) . '</td>
+						</tr>
+						<tr>
+							<td><strong>Subtotal: </strong></td>
+							<td style="text-align: right;">$' . get_post_meta($post_id, 'subtotal') . '</td>
+						</tr>
+						<tr>
+							<td><strong>Sales Tax: </strong></td>
+							<td style="text-align: right">$' . get_post_meta($post_id, 'sales_tax') . '</td>
+						</tr>
+						<tr>
+							<td><strong>Total: </strong></td>
+							<td style="text-align: right;">$' . get_post_meta($post_id, 'total') . '</td>
+						</tr>
+	    	    		<tr>
+	    	    			<td><strong>Name: </strong></td>
+	    	    			<td>' . get_post_meta($post_id, 'customer_name') . '</td>
+						</tr>
+						<tr>
+	    	    			<td><strong>Email: </strong></td>
+	    	    			<td>' . $recipients['customer'] . '</td>
+						</tr>
+						<tr>
+							<td><strong>Phone: </strong></td>
+							<td>' . get_post_meta($post_id, 'customer_phone') . '</td>
+						</tr>
+						<tr>
+							<td><strong>Items: </strong></td>
+							<td>' . get_post_meta($post_id, 'order_items') . '</td>
+						</tr>
+						<tr>
+							<td><strong>Notes: </strong></td>
+							<td>' . get_post_meta($post_id, 'customer_notes') . '</td>
+						</tr>
+					</table>
+	    	    </div>
+	    	';
+	    	foreach ($recipients as $type => $recipient):
+				$subject = ($type === 'customer') ? $customer_subject : $owner_subject;
+	    	    wp_mail($recipient, $subject, $headers, $html);
+		    endforeach;
+	    }
+
     }
 
     function cc_upcoming_pickup_dates(){
@@ -385,7 +492,7 @@ endif;
 	    // meal pick-up date
 	    register_post_type('cc_meal_pickup_date', [
 		    'description' => 'Meal Pick-Up Schedules',
-		    'hierarchical' => true,
+		    'hierarchical' => false,
 		    'labels' => [
 			    'add_new_item' => 'Add New Pick-Up Date',
 			    'all_items' => 'All Pick-Up Dates',
@@ -420,7 +527,7 @@ endif;
     	// menu items
 	    register_post_type('cc_menu_item', [
 		    'description' => 'Menu items sold by Carmella\'s Cuisine',
-	    	'hierarchical' => true,
+	    	'hierarchical' => false,
 	    	'labels' => [
 		    	'add_new' => 'Add New',
 		    	'add_new_item' => 'Add New Menu Item',
@@ -459,11 +566,8 @@ endif;
 
 	    // menu items
 	    register_post_type('cc_orders', [
-		    'capabilities' => [
-		    	'read_post'
-		    ],
 	    	'description' => 'Orders from Carmella\'s Cuisine Customers',
-		    'hierarchical' => true,
+		    'hierarchical' => false,
 		    'labels' => [
 			    'add_new_item' => 'Add New Order',
 			    'all_items' => 'All Items',
@@ -489,8 +593,8 @@ endif;
 		    'show_in_menu' => true,
 		    'show_ui' => true,
 		    'supports' => [
-			    'page-attributes',
 			    'custom-fields',
+			    'page-attributes',
 			    'thumbnail',
 			    'title'
 		    ]

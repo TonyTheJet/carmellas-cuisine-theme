@@ -11,6 +11,7 @@ function MealOrder(app_root){
     // end constants
 
     this.app_root = app_root;
+    this.confirm_order_btn_el = $('#confirm-order');
     this.customer_email = null;
     this.customer_email_el = $('#customer-email');
     this.customer_name = null;
@@ -36,6 +37,7 @@ function MealOrder(app_root){
     this.order_summary_total = $('#order-summary-total');
     this.order_total = 0.00;
     this.order_total_el = $('#order-total');
+    this.order_total_modal_el = $('#order-total-modal');
     this.pickup_date_id = null;
     this.step_1_continue_btn = $('#step-1-continue-btn');
     this.step_2_continue_btn = $('#step-2-continue-btn');
@@ -48,6 +50,13 @@ function MealOrder(app_root){
 }
 
 
+MealOrder.prototype.attach_confirm_order_handler = function(){
+    var this_ref = this;
+    this.confirm_order_btn_el.on('click', function(){
+        this_ref.jump_to_step(4);
+    });
+};
+
 MealOrder.prototype.attach_customer_info_event_handlers = function(){
     var this_ref = this;
     $('.customer-info').on('change', function(){
@@ -57,6 +66,7 @@ MealOrder.prototype.attach_customer_info_event_handlers = function(){
 };
 
 MealOrder.prototype.attach_event_handlers = function(){
+    this.attach_confirm_order_handler();
     this.attach_customer_info_event_handlers();
     this.attach_pickup_date_event_handlers();
     this.attach_step_event_handlers();
@@ -105,14 +115,12 @@ MealOrder.prototype.attach_step_event_handlers = function(){
             this_ref.jump_to_step($(this).data('load_step'));
         }
     });
-
-
-
 };
 
 /**
  *
  * @param {number} step
+ * @uses MealOrder.prototype.load_step_1
  */
 MealOrder.prototype.jump_to_step = function(step){
 
@@ -128,7 +136,8 @@ MealOrder.prototype.jump_to_step = function(step){
     this['load_step_' + step]();
 };
 
-
+/**
+ */
 MealOrder.prototype.load_step_1 = function(){
     this.step_2_show_loading_gif();
 };
@@ -190,7 +199,57 @@ MealOrder.prototype.load_step_3 = function(){
 
 MealOrder.prototype.load_step_4 = function(){
     console.log(this);
-    console.log('loading step 4');
+
+    // format order items
+    var order_items_str = '';
+    for (var i = 0; i < this.order_items.length; i++){
+        order_items_str += this.order_items[i].to_string() + '<br>';
+    }
+
+    $.post(
+        '/',
+        {
+            'action': 'save_meal_order',
+            'order': {
+                'customer_email': this.customer_email,
+                'customer_name': this.customer_name,
+                'customer_phone': this.customer_phone,
+                'customer_notes': this.customer_notes,
+                'order_items': order_items_str,
+                'pickup_date_id': this.pickup_date_id,
+                'sales_tax': this.order_sales_tax,
+                'subtotal': this.order_subtotal,
+                'total': this.order_total
+
+            }
+        },
+        /**
+         *
+         * @param response
+         * @param {string} response.message
+         * @param {Object} response.pickup_date
+         * @param {string} response.pickup_date_date_string
+         * @param {Array} response.pickup_date_items
+         * @param {Object} response.pickup_date_items.basic_data
+         * @param {number} response.pickup_date_items.basic_data.ID;
+         * @param {string} response.pickup_date_items.basic_data.post_title
+         * @param {number} response.pickup_date_items.bulk_price
+         * @param {number} response.pickup_date_items.minimum_bulk_price_quantity
+         * @param {number} response.pickup_date_items.price
+         * @param {string} response.pickup_date_items.thumbnail_url
+         */
+        function(response){
+            if (response.success){
+                $('#step-4-success-message').removeClass('hidden');
+                $('#step-4-error-message').addClass('hidden');
+            } else {
+                $('#step-4-error-message').removeClass('hidden');
+                $('#step-4-success-message').addClass('hidden');
+            }
+        },
+        'json'
+    );
+
 };
 
 MealOrder.prototype.populate_order_summary_table = function(){
@@ -238,6 +297,7 @@ MealOrder.prototype.refresh_order_totals = function(){
     this.order_subtotal_el.html(this.order_subtotal);
     this.order_sales_tax_el.html(this.order_sales_tax);
     this.order_total_el.html(this.order_total);
+    this.order_total_modal_el.html(this.order_total);
     // end update elements
 
     // refresh validation
@@ -268,7 +328,7 @@ MealOrder.prototype.step_2_show_loading_gif = function(){
 };
 
 MealOrder.prototype.step_3_refresh_customer_info = function(){
-    this.customer_email = this.customer_phone_el.val();
+    this.customer_email = this.customer_email_el.val();
     this.customer_name = this.customer_name_el.val();
     this.customer_notes = this.customer_notes_el.val();
     this.customer_phone = this.customer_phone_el.val();

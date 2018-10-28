@@ -18,8 +18,15 @@ add_action('init', 'cc_register_custom_posts');
 add_action('widgets_init', 'cc_widgets_init');
 
 // AJAX
-if (!empty($_POST['action']) && $_POST['action'] === 'fetch_items_for_pickup_date'):
-	cc_ajax_fetch_items_for_pickup_date();
+if (!empty($_POST['action'])):
+	switch($_POST['action']):
+		case 'fetch_items_for_pickup_date':
+			cc_ajax_fetch_items_for_pickup_date();
+			break;
+		case 'save_meal_order':
+			cc_ajax_save_meal_order();
+			break;
+	endswitch;
 endif;
 // end AJAX
 
@@ -86,7 +93,6 @@ endif;
     	        $menu_items_for_date = get_post_meta($post->ID, 'menu_items_for_date', true);
     	        $i = 0;
     	        foreach ($menu_items_for_date as $menu_item_id):
-	                $menu_item = get_post($menu_item_id);
     	            $return_arr['pickup_date_items'][$i]['basic_data'] = get_post($menu_item_id);
     	            $return_arr['pickup_date_items'][$i]['bulk_price'] = get_post_meta($menu_item_id, 'bulk_price', true);
 		            $return_arr['pickup_date_items'][$i]['minimum_bulk_price_quantity'] = get_post_meta($menu_item_id, 'minimum_bulk_price_quantity', true);
@@ -104,6 +110,34 @@ endif;
 
     	echo json_encode($return_arr);
 
+    	exit();
+    }
+
+    function cc_ajax_save_meal_order(){
+    	$return_arr = [
+    		'message' => 'ERROR: order object must be sent.',
+		    'success' => false
+	    ];
+    	if (!empty($_POST['order'])):
+	        $return_arr['message'] = 'success';
+
+    	    // create the basic order post
+			$post_id = $post_arr = [
+				'ID' => 0,
+				'post_title' => date('Y-m-d H:i:s') . ' for ' . $_POST['customer_name']
+			];
+			if ($post_id !== 0):
+
+				// save the meta fields
+
+		        // send the email
+
+
+	            $return_arr['success'] = true;
+			endif;
+	    endif;
+
+    	echo json_encode($return_arr);
     	exit();
     }
 
@@ -268,19 +302,20 @@ endif;
 									</tfoot>
 								</table>
 							</div>
-							<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+							<div class="modal fade" id="order-confirm-modal" tabindex="-1" role="dialog" aria-labelledby="order-confirm-label">
 							  <div class="modal-dialog" role="document">
 							    <div class="modal-content">
 							      <div class="modal-header">
 							        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							        <h4 class="modal-title" id="myModalLabel">Confirm Order</h4>
+							        <h4 class="modal-title" id="order-confirm-label">Confirm Order</h4>
 							      </div>
 							      <div class="modal-body">
-							      		Are you sure you\'d like to place this order for $<span id="order-total"></span>?
+							      		Are you sure you\'d like to place this order for $<span id="order-total-modal"></span>?
+							      		<p>This total will be due upon pick-up via Venmo, credit card, or cash. You will receive a confirmation email with the details.</p>
 							      </div>
 							      <div class="modal-footer">
 							        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							        <button type="button" class="btn btn-primary">Save changes</button>
+							        <button type="button" class="btn btn-primary" id="confirm-order" data-dismiss="modal">Confirm Order</button>
 							      </div>
 							    </div>
 							  </div>
@@ -289,13 +324,21 @@ endif;
 						<div class="pull-left">
 							<button type="button" class="btn btn-default load-step" data-load_step="2">Back</button>
 						</div>
-						<div class="pull-right"><button type="submit" class="btn btn-primary load-step" id="step-3-continue-btn" disabled data-load_step="4">Place Order</button></div>
+						<div class="pull-right"><button type="button" class="btn btn-primary" id="step-3-continue-btn" disabled data-toggle="modal" data-target="#order-confirm-modal">Place Order</button></div>
 					</div>
 					<div id="order-meal-step-4-body" class="order-meal-step-body hidden">
 						<div class="row">
-							<div class="col-xs-12">
+							<div class="col-xs-12" id="step-4-success-message">
 								<h1>SUCCESS!</h1>
-								Thank you for your order! Your order details are below. Please arrive between 11:00 a.m. and 6:00 p.m. on the date of your pick-up. <u>Payment is made upon pick-up in the form of either cash or credit card</u>.
+								Thank you for your order! An email has been sent to you to confirm your order. 
+								<br>
+								Please arrive between 11:00 a.m. and 6:00 p.m. on the date of your pick-up. <u>Payment is made upon pick-up in the form of either cash or credit card</u>.
+							</div>
+							<div class="col-xs-12 hidden" id="step-4-error-message">
+								<h1>Oops! Something went wrong!</h1>
+								<p class="text-danger">
+									There was an issue saving your order. Please give us a call at 801.550.1679 to determine what went wrong or place your order by phone.
+								</p>
 							</div>
 						</div>
 					</div>
@@ -327,7 +370,7 @@ endif;
 		        break;
 	        endif;
 
-	        $last_pickup_datetime = new DateTime(get_field('orderby_date_time', $post->ID, false));
+	        $last_pickup_datetime = new DateTime(get_field('orderby_date_time', $post->ID, false), new DateTimeZone(get_option('timezone_string')));
 	        if ($last_pickup_datetime->getTimestamp() > time()):
 		        $filtered_posts[] = $post;
 	        endif;
@@ -448,11 +491,8 @@ endif;
 		    'supports' => [
 			    'page-attributes',
 			    'custom-fields',
-			    'editor',
-			    'excerpt',
 			    'thumbnail',
-			    'title',
-			    'trackbacks'
+			    'title'
 		    ]
 	    ]);
 

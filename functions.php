@@ -31,13 +31,7 @@ if (!empty($_POST['action'])):
 		case 'save_meal_order':
 			cc_ajax_save_meal_order();
 			break;
-		default:
-			echo json_encode(
-				[
-					'message' => 'Unknown action specified',
-					'success' => false
-				]
-			);
+
 	endswitch;
 endif;
 // end AJAX

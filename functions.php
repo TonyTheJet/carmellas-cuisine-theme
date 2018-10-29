@@ -19,7 +19,6 @@ add_action('init', 'cc_register_custom_posts');
 add_action('widgets_init', 'cc_widgets_init');
 
 // filters
-add_filter('wp_mail_content_type', 'cc_mail_content_type');
 add_filter('wp_mail_from_name', 'cc_mail_from_name');
 
 // AJAX
@@ -445,7 +444,8 @@ endif;
 					</table>
 	    	    </div>
 	    	';
-	    	foreach ($recipients as $type => $recipient):
+		    add_filter('wp_mail_content_type', 'cc_mail_content_type');
+		    foreach ($recipients as $type => $recipient):
 				$subject = ($type === 'customer') ? $customer_subject : $owner_subject;
 	    	    wp_mail($recipient, $subject, $headers, $html);
 		    endforeach;

@@ -385,6 +385,11 @@ a:hover{
     height: 200px;
 }
 
+#meal-items .meal-item .description {
+    height: 90px;
+    overflow-y: auto;
+}
+
 #meal-items .price-wrapper {
     min-height: 52px;
 }

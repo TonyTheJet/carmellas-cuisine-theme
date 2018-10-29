@@ -32,6 +32,7 @@ function MealOrder(app_root){
     this.order_sales_tax_el = $('#order-sales_tax');
     this.order_subtotal = 0.00;
     this.order_subtotal_el = $('#order-subtotal');
+    this.order_summary_table = $('#order-summary');
     this.order_summary_sales_tax = $('#order-summary-sales_tax');
     this.order_summary_subtotal = $('#order-summary-subtotal');
     this.order_summary_total = $('#order-summary-total');
@@ -175,10 +176,12 @@ MealOrder.prototype.load_step_2 = function(){
                         html_string += '<div class="meal-item col-xs-12 col-sm-6 col-md-4 col-lg-3" data-menu_item_id="' + response.pickup_date_items[i].basic_data.ID + '" data-bulk_price="' + response.pickup_date_items[i].bulk_price +'" data-minimum_bulk_price_quantity="' + response.pickup_date_items[i].minimum_bulk_price_quantity + '" data-price="' + response.pickup_date_items[i].price + '">';
                         html_string +=      '<h3 class="meal-item-name">' + response.pickup_date_items[i].basic_data.post_title + '</h3>';
                         html_string +=          '<div class="meal-item-img-wrapper" style="background-image: url(\'' +  response.pickup_date_items[i].thumbnail_url + '\')"></div>';
-                        html_string +=          '<div class="price">Price each: <strong>$' + response.pickup_date_items[i].price + '</strong></div>';
+                        html_string +=          '<div class="price-wrapper">';
+                        html_string +=              '<div class="price">Price each: <strong>$' + response.pickup_date_items[i].price + '</strong></div>';
                         if (response.pickup_date_items[i].price > response.pickup_date_items[i].bulk_price){
                             html_string +=          '<div class="price">Group price (qty ' + response.pickup_date_items[i].minimum_bulk_price_quantity + ' or more): <strong>$' + response.pickup_date_items[i].bulk_price + '</strong></div>';
                         }
+                    html_string +=              '</div>';
                         html_string +=          '<div class="quantity-wrapper"><strong>Quantity: </strong><input type="number" class="quantity" min="0" max="9999" step="1" value="0" /></div>';
                         html_string += '</div>';
                     }
@@ -200,7 +203,6 @@ MealOrder.prototype.load_step_3 = function(){
 };
 
 MealOrder.prototype.load_step_4 = function(){
-    console.log(this);
 
     // format order items
     var order_items_str = '';
@@ -255,6 +257,13 @@ MealOrder.prototype.load_step_4 = function(){
 };
 
 MealOrder.prototype.populate_order_summary_table = function(){
+
+    // populate items
+    for (var i = 0; i < this.order_items.length; i++){
+        this.order_summary_table.find('tbody').append('<tr><td>' + this.order_items[i].name + '</td><td class="text-right">' + this.order_items[i].quantity + '</td><td class="text-right">$' + this.order_items[i].price + '</td></tr>');
+    }
+
+
     this.order_summary_sales_tax.html('$' + this.order_sales_tax);
     this.order_summary_subtotal.html('$' + this.order_subtotal);
     this.order_summary_total.html('$' + this.order_total);

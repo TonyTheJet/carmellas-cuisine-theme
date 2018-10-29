@@ -370,6 +370,10 @@ a:hover{
     height: 200px;
 }
 
+#meal-items .price-wrapper {
+    min-height: 52px;
+}
+
 #meal-items .meal-item .price {
     padding: 3px 6px;
     text-align: right;
@@ -380,6 +384,18 @@ a:hover{
     padding: 6px;
     text-align: right;
 }
+
+/* mobile styles */
+@media screen and (max-width: 600px){
+    .order-meal-step-body .pick-up-date h2 {
+        font-size: 16px;
+    }
+
+    .order-meal-step-body .pick-up-date h3 {
+        font-size: 14px;
+    }
+}
+/* end mobile styles */
 
 /* end order page */
 

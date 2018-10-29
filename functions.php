@@ -186,7 +186,7 @@ endif;
 				endforeach;
 
 				$pickup_dates_html .= '
-					<div class="pick-up-date col-xs-6 col-sm-4 col-md-3" data-date_id="' . $pickup->ID .'">
+					<div class="pick-up-date col-xs-12 col-sm-4 col-md-3" data-date_id="' . $pickup->ID .'">
 						<div class="pick-up-date-inner">
 							<h2>' . $date . '</h2>
 							<h3>Menu Options</h3>
@@ -203,16 +203,16 @@ endif;
     	    <form id="order-meal-app">
     	    	<div id="order-meal-step-list-wrapper" class="row">
     	    		<div id="order-meal-step-1" class="order-meal-step active">
-    	    			<h2>1. Choose Pick-Up Date</h2>
+    	    			<h2>1<span class="hidden-xs hidden-sm">. Choose Pick-Up Date</span></h2>
 					</div>
 					<div id="order-meal-step-2" class="order-meal-step">
-						<h2>2. Choose Items and Quantities</h2>
+						<h2>2<span class="hidden-xs hidden-sm">. Choose Items and Quantities</span></h2>
 					</div>
 					<div id="order-meal-step-3" class="order-meal-step">
-						<h2>3. Enter Your Information</h2>
+						<h2>3<span class="hidden-xs hidden-sm">. Enter Your Information</span></h2>
 					</div>
 					<div id="order-meal-step-4" class="order-meal-step">
-						<h2>4. Receive Confirmation Email</h2>
+						<h2>4<span class="hidden-xs hidden-sm">. Receive Confirmation Email</span></h2>
 					</div>
 				</div>
 				<div id="order-meal-body-wrapper">
@@ -305,24 +305,24 @@ endif;
 								<table class="table table-striped table-bordered table-condensed table-responsive" id="order-summary">
 									<thead>
 										<tr>
-											<th>Item</th>
-											<th>Quantity</th>
-											<th>Price ea.</th>
+											<th class="text-center">Item</th>
+											<th class="text-center">Quantity</th>
+											<th class="text-center">Price ea.</th>
 										</tr>
 									</thead>
 									<tbody>
 									
 									</tbody>
 									<tfoot>
-										<tr>
+										<tr class="info">
 											<td colspan="2">Subtotal</td>
 											<td id="order-summary-subtotal" class="text-right">$0.00</td>
 										</tr>
-										<tr>
+										<tr class="info">
 											<td colspan="2">Sales Tax</td>
 											<td id="order-summary-sales_tax" class="text-right">$0.00</td>
 										</tr>
-										<tr class="active">
+										<tr class="danger">
 											<td colspan="2"><strong class="secondary-color">Amount Due at Pick-Up</strong></td>
 											<td class="text-right"><strong id="order-summary-total">$0.00</strong></td>
 										</tr>

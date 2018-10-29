@@ -20,6 +20,7 @@ add_action('widgets_init', 'cc_widgets_init');
 
 // filters
 add_filter('wp_mail_from_name', 'cc_mail_from_name');
+add_filter('wp_mail_from', 'cc_mail_from');
 
 // AJAX
 if (!empty($_POST['action'])):
@@ -394,7 +395,6 @@ endif;
 		    ];
 	    	$customer_subject = 'Your Carmella\'s Cuisine Pick-Up Confirmation (#' . $post->ID . ')';
 	    	$owner_subject = 'New CarmellasCuisine.com Order #' . $post_id;
-		    $headers ="Content-Type: text/html\r\nFrom: Carmella\'s Cuisine <no-reply@" . $_SERVER['SERVER_NAME'] . ">\r\nReply-To: Carmella\'s Cuisine <no-reply" . $_SERVER['SERVER_NAME'] . ">\r\n";
 
 
 	    	$html = '
@@ -447,7 +447,7 @@ endif;
 		    add_filter('wp_mail_content_type', 'cc_mail_content_type');
 		    foreach ($recipients as $type => $recipient):
 				$subject = ($type === 'customer') ? $customer_subject : $owner_subject;
-	    	    wp_mail($recipient, $subject, $headers, $html);
+	    	    wp_mail($recipient, $subject, '', $html);
 		    endforeach;
 	    }
 
@@ -601,6 +601,10 @@ endif;
 
     function cc_mail_content_type(){
     	return 'text/html';
+    }
+
+    function cc_mail_from(){
+    	return 'no-reply@carmellascuisine.com';
     }
 
     function cc_mail_from_name(){

@@ -21,7 +21,7 @@
 		<link rel="icon" type="image/png" sizes="96x96" href="<?php bloginfo('stylesheet_directory'); ?>/images/favicon/favicon-96x96.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="<?php bloginfo('stylesheet_directory'); ?>/images/favicon/favicon-16x16.png">
 		<link rel="manifest" href="<?php bloginfo('stylesheet_directory'); ?>/manifest.json">
-		<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory'); ?>/style.css">
+		<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory'); ?>/style.css?v=1.0">
 		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 		<script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/bootstrap/bootstrap.min.js"></script>
         <link rel="stylesheet" href="<?php bloginfo ('stylesheet_directory'); ?>/css/font-awesome.min.css">
@@ -37,12 +37,17 @@
 		<?php endif; ?>   
 
 	</head> 
-	<body>
+	<body class="<?php if (is_user_logged_in()): ?>logged-in<?php endif; ?>">
+	<?php if (1 == 2): ?>
 		<div id="gloria-food-wrapper">
-			<!-- If you would like to customize the button, remove or change the "class" attribute inside the <span> tag --> 
-<span class="glf-button" data-glf-cuid="4e635d53-08d2-48a3-85cf-1e9528bc1aa2" data-glf-ruid="b3e73b93-105a-4ea2-a2bf-ee253b31c093" > Order Meal Pickup </span> 
-<script src="https://www.fbgcdn.com/widget/js/ewm2.js" defer async ></script>
+            <!-- If you would like to customize the button, remove or change the "class" attribute inside the <span> tag -->
+            <span class="glf-button" data-glf-cuid="4e635d53-08d2-48a3-85cf-1e9528bc1aa2" data-glf-ruid="b3e73b93-105a-4ea2-a2bf-ee253b31c093" > Order Meal Pickup </span>
+            <script src="https://www.fbgcdn.com/widget/js/ewm2.js" defer async ></script>
 		</div>
+	<?php endif; ?>
+        <div id="order-pick-up-link-wrapper">
+            <a href="<?php bloginfo('url'); ?>/order-meal-pick-up" class="btn btn-primary">Order Meal Pick-Up</a>
+        </div>
         <div id="header-menu">
             <div class="header-menu-item">
                 <i class="fa fa-phone"></i> &nbsp; 801-550-1670

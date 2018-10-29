@@ -279,6 +279,15 @@ a:hover{
 /*******************/
 
 /* bootstrap overrides */
+.btn-primary, .btn-primary:visited {
+    background-color: #da2975 !important;
+    border-color: #c90259 !important;
+}
+
+.btn-primary:hover, .btn-primary:active {
+    background-color: #e14c8d !important;
+}
+
 .btn-success-outline:hover{
     background-color: transparent !important;
     border-color: #7aaf38 #7aaf38 #95c757 !important;
@@ -297,6 +306,8 @@ a:hover{
     border-radius: 0 !important;
 }
 /***********************/
+
+
 
 
 /* order page */
@@ -456,6 +467,17 @@ a:hover{
 	z-index: 998;
 }
 /********************/
+
+#order-pick-up-link-wrapper {
+    position: fixed;
+    right: 8px;
+    top: 8px;
+    z-index: 9999;
+}
+
+.logged-in #order-pick-up-link-wrapper {
+    top: 40px;
+}
 
 /* gloria food button */
 #gloria-food-wrapper {

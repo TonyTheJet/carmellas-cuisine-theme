@@ -396,7 +396,7 @@ endif;
 	    	$customer_subject = 'Your Carmella\'s Cuisine Pick-Up Confirmation (#' . $post->ID . ')';
 	    	$owner_subject = 'New CarmellasCuisine.com Order #' . $post_id;
 		    $headers =[
-		    	'Content-Type: text/html; charset=UTF-8',
+		    	'Content-Type' => 'text/html; charset=UTF-8',
 			    'From' => 'no-reply@' . $_SERVER['SERVER_NAME'],
 			    'Reply-To' => 'no-reply@' . $_SERVER['SERVER_NAME']
 		    ];
@@ -449,7 +449,7 @@ endif;
 	    	';
 	    	foreach ($recipients as $type => $recipient):
 				$subject = ($type === 'customer') ? $customer_subject : $owner_subject;
-	    	    mail($recipient, $subject, $headers, $html);
+	    	    wp_mail($recipient, $subject, $headers, $html);
 		    endforeach;
 	    }
 

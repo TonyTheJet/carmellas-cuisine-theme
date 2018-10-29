@@ -394,7 +394,7 @@ endif;
 		    ];
 	    	$customer_subject = 'Your Carmella\'s Cuisine Pick-Up Confirmation (#' . $post->ID . ')';
 	    	$owner_subject = 'New CarmellasCuisine.com Order #' . $post_id;
-		    $headers ="From: no-reply@" . $_SERVER['SERVER_NAME'] . "\r\nReply-To: no-reply" . $_SERVER['SERVER_NAME'];
+		    $headers ="Content-Type: text/html\r\nFrom: Carmella\'s Cuisine <no-reply@" . $_SERVER['SERVER_NAME'] . ">\r\nReply-To: Carmella\'s Cuisine <no-reply" . $_SERVER['SERVER_NAME'] . ">\r\n";
 
 
 	    	$html = '

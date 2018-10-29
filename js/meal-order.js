@@ -40,7 +40,7 @@ function MealOrder(app_root){
     this.order_total_el = $('#order-total');
     this.order_total_modal_el = $('#order-total-modal');
     this.pickup_date_id = null;
-    this.step_1_continue_btn = $('#step-1-continue-btn');
+    this.step_1_continue_btn = $('.step-1-continue-btn');
     this.step_2_continue_btn = $('#step-2-continue-btn');
     this.step_3_continue_btn = $('#step-3-continue-btn');
     this.step_4_continue_btn = $('#step-4-continue-btn');

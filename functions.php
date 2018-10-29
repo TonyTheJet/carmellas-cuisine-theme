@@ -449,7 +449,7 @@ endif;
 	    	';
 	    	foreach ($recipients as $type => $recipient):
 				$subject = ($type === 'customer') ? $customer_subject : $owner_subject;
-	    	    wp_mail($recipient, $subject, $headers, $html);
+	    	    mail($recipient, $subject, $headers, $html);
 		    endforeach;
 	    }
 

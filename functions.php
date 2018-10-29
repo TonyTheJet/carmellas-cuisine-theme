@@ -397,7 +397,7 @@ endif;
 	    if ($post->post_type === 'cc_orders'){
 		    $recipients = [
 			    'customer' => get_post_meta($post_id, 'customer_email', true),
-			    //'owner' => 'carmellas.cuisine@gmail.com',
+			    'owner' => 'carmellas.cuisine@gmail.com',
 			    'developer' => 'tony@tony-anderson.info'
 		    ];
 	    	$customer_subject = 'Your Carmella\'s Cuisine Pick-Up Confirmation (#' . $post->ID . ')';

@@ -229,7 +229,7 @@ endif;
 						<div class="row">
 							<div class="col-xs-12">
 								<h1>Choose a Meal Pick-Up Date</h1>
-								<div class="row continue-btn-top-row">
+								<div class="row continue-btn-row">
 									<div class="col-xs-12 text-right">
 										<button type="button" class="btn btn-primary load-step step-1-continue-btn" data-load_step="2" disabled>Continue</button>
 									</div>
@@ -237,7 +237,7 @@ endif;
 							</div>
 							' . $pickup_dates_html . '
 						</div>
-						<div class="row">
+						<div class="row continue-btn-row">
 							<div class="col-xs-12 text-right">
 								<button type="button" class="btn btn-primary load-step step-1-continue-btn" data-load_step="2" disabled>Continue</button>
 							</div>

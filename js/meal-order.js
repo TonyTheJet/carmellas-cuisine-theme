@@ -178,7 +178,7 @@ MealOrder.prototype.load_step_2 = function(){
                         html_string +=          '<div class="meal-item-img-wrapper" style="background-image: url(\'' +  response.pickup_date_items[i].thumbnail_url + '\')"></div>';
                         html_string +=          '<div class="price-wrapper">';
                         html_string +=              '<div class="price">Price each: <strong>$' + response.pickup_date_items[i].price + '</strong></div>';
-                        if (response.pickup_date_items[i].price > response.pickup_date_items[i].bulk_price){
+                        if (parseFloat(response.pickup_date_items[i].price) > parseFloat(response.pickup_date_items[i].bulk_price)){
                             html_string +=          '<div class="price">Group price (qty ' + response.pickup_date_items[i].minimum_bulk_price_quantity + ' or more): <strong>$' + response.pickup_date_items[i].bulk_price + '</strong></div>';
                         }
                     html_string +=              '</div>';

@@ -318,11 +318,15 @@ a:hover{
 }
 
 .order-meal-step-body {
-    padding-bottom: 20px;
+    padding-top: 20px;
 }
 
 .order-meal-step.active {
     background: #a3d663;
+}
+
+.continue-btn-top-row {
+    padding-bottom: 20px;
 }
 
 .order-meal-step h2 {

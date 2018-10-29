@@ -20,7 +20,7 @@ add_action('widgets_init', 'cc_widgets_init');
 
 // filters
 add_filter('wp_mail_from_name', 'cc_mail_from_name');
-add_filter('wp_mail_from', 'cc_mail_from');
+//add_filter('wp_mail_from', 'cc_mail_from');
 
 // AJAX
 if (!empty($_POST['action'])):

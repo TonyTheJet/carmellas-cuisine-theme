@@ -188,7 +188,7 @@ endif;
 				endforeach;
 
 				$pickup_dates_html .= '
-					<div class="pick-up-date col-xs-6 col-sm-4 col-md-3" data-date_id="' . $pickup->ID .'">
+					<div class="pick-up-date col-xs-6 col-sm-4 col-md-3" data-date_id="' . $pickup->ID .'" data-date_string="' . $date . '">
 						<div class="pick-up-date-inner">
 							<h2>' . $date . '</h2>
 							<div class="pick-up-date-options hidden-xs hidden-sm">
@@ -241,7 +241,7 @@ endif;
 					<div id="order-meal-step-2-body" class="order-meal-step-body hidden">
 						<div class="row">
 							<div class="col-xs-12">
-								<h1>Please Choose Your Items</h1>
+								<h1>Please Choose Your Items For <span id="choose-items-date"></span></h1>
 								<div id="meal-items"><img class="center-block" src="' . get_bloginfo('stylesheet_directory') . '/images/eclipse-1s-200px.gif' . '" /></div>
 								<div class="row">
 									<div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-6">
@@ -384,7 +384,7 @@ endif;
     	    	var ajaxurl = "' . admin_url('admin-ajax.php') . '";
     	    	var stylesheet_directory = "' . get_bloginfo('stylesheet_directory') . '";
 			</script>
-    	    <script type="text/javascript" src="' . get_bloginfo('stylesheet_directory') . '/js/meal-order.js?v=1.0.2"></script>
+    	    <script type="text/javascript" src="' . get_bloginfo('stylesheet_directory') . '/js/meal-order.js?v=1.0.3"></script>
     	';
     }
 

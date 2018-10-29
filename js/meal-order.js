@@ -39,6 +39,7 @@ function MealOrder(app_root){
     this.order_total = 0.00;
     this.order_total_el = $('#order-total');
     this.order_total_modal_el = $('#order-total-modal');
+    this.pickup_date_string = null;
     this.pickup_date_id = null;
     this.step_1_continue_btn = $('.step-1-continue-btn');
     this.step_2_continue_btn = $('#step-2-continue-btn');
@@ -92,9 +93,11 @@ MealOrder.prototype.attach_pickup_date_event_handlers = function(){
         if ($(this).hasClass('selected')){
             $(this).removeClass('selected');
             this_ref.pickup_date_id = null;
+            this_ref.pickup_date_string = null;
         } else {
             $(this).addClass('selected');
             this_ref.pickup_date_id = $(this).data('date_id');
+            this_ref.pickup_date_string = $(this).data('date_string');
             $('.pick-up-date').each(function(){
                 if ($(this).data('date_id') !== this_ref.pickup_date_id){
                     $(this).removeClass('selected');
@@ -146,6 +149,7 @@ MealOrder.prototype.load_step_1 = function(){
 MealOrder.prototype.load_step_2 = function(){
     if (!this.meal_items_el.find('.meal-item').length){
         this.step_2_show_loading_gif();
+        $('#choose-items-date').html(this.pickup_date_string);
         this.order_items = [];
         var this_ref = this;
         $.post(

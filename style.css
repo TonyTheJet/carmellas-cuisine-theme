@@ -470,8 +470,8 @@ a:hover{
 
 #order-pick-up-link-wrapper {
     position: fixed;
-    right: 8px;
-    top: 8px;
+    right: 16px;
+    top: 26px;
     z-index: 9999;
 }
 

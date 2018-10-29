@@ -280,7 +280,7 @@ endif;
 								</div>
 							</div>
 						</div>
-						<div class="row">
+						<div class="row  continue-btn-row">
 							<div class="col-xs-12">
 								<div class="pull-left">
 									<button type="button" class="btn btn-default load-step" data-load_step="1">Back</button>

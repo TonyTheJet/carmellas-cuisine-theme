@@ -374,8 +374,10 @@ a:hover{
 }
 
 #meal-items h3 {
+    display: block;
     font-family: 'Lato', sans-serif;
     font-size: 16px;
+    min-height: 34px;
     text-align: center;
 }
 

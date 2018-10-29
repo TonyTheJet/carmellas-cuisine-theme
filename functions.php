@@ -103,7 +103,12 @@ endif;
     	            $return_arr['pickup_date_items'][$i]['bulk_price'] = get_post_meta($menu_item_id, 'bulk_price', true);
 		            $return_arr['pickup_date_items'][$i]['minimum_bulk_price_quantity'] = get_post_meta($menu_item_id, 'minimum_bulk_price_quantity', true);
     	            $return_arr['pickup_date_items'][$i]['price'] = get_post_meta($menu_item_id, 'price', true);
-    	            $return_arr['pickup_date_items'][$i]['thumbnail_url'] = get_the_post_thumbnail_url($menu_item_id, 'post-thumbnail');
+    	            $thumbnail_url = get_the_post_thumbnail_url($menu_item_id, 'post-thumbnail');
+    	            if ($thumbnail_url !== false):
+    	                $return_arr['pickup_date_items'][$i]['thumbnail_url'] = $thumbnail_url;
+    	            else:
+		                $return_arr['pickup_date_items'][$i]['thumbnail_url'] = get_bloginfo('stylesheet_directory') . '/images/image-coming-soon.jpg';
+	                endif;
     	            $i++;
 	            endforeach;
 

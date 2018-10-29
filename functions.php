@@ -186,13 +186,15 @@ endif;
 				endforeach;
 
 				$pickup_dates_html .= '
-					<div class="pick-up-date col-xs-12 col-sm-4 col-md-3" data-date_id="' . $pickup->ID .'">
+					<div class="pick-up-date col-xs-6 col-sm-4 col-md-3" data-date_id="' . $pickup->ID .'">
 						<div class="pick-up-date-inner">
 							<h2>' . $date . '</h2>
-							<h3>Menu Options</h3>
-							<ul>
-								' . $items_html . '
-							</ul>
+							<div class="pick-up-date-options hidden-xs hidden-sm">
+								<h3>Menu Options</h3>
+								<ul>
+									' . $items_html . '
+								</ul>
+							</div>
 						</div>
 					</div>
 				';

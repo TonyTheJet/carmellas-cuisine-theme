@@ -395,6 +395,12 @@ a:hover{
         font-size: 14px;
     }
 }
+
+@media screen and (max-width: 991px){
+    .pick-up-date-inner {
+        min-height: 0;
+    }
+}
 /* end mobile styles */
 
 /* end order page */

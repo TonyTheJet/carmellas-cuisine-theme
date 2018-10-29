@@ -395,10 +395,9 @@ endif;
 		    ];
 	    	$customer_subject = 'Your Carmella\'s Cuisine Pick-Up Confirmation (#' . $post->ID . ')';
 	    	$owner_subject = 'New CarmellasCuisine.com Order #' . $post_id;
-		    $headers =[
-			    'From' => 'no-reply@' . $_SERVER['SERVER_NAME'],
-			    'Reply-To' => 'no-reply@' . $_SERVER['SERVER_NAME']
-		    ];
+		    $headers ="From: no-reply@" . $_SERVER['SERVER_NAME'] . "\r\nReply-To: no-reply" . $_SERVER['SERVER_NAME'];
+
+
 	    	$html = '
 	    	    <div>
 	    	    	<h2>Thanks for Choosing Carmella\'s Cuisine!</h2>

@@ -449,7 +449,9 @@ endif;
 		    add_filter('wp_mail_content_type', 'cc_mail_content_type');
 		    foreach ($recipients as $type => $recipient):
 				$subject = ($type === 'customer') ? $customer_subject : $owner_subject;
-	    	    wp_mail($recipient, $subject, $html);
+	    	    if (!wp_mail($recipient, $subject, $html)):
+			        error_log('Could not send order email to ' . $recipient);
+	    	    endif;
 		    endforeach;
 	    }
 

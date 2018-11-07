@@ -315,6 +315,25 @@ a:hover{
     margin: 16px 0;
 }
 
+#pick-up-location {
+    animation: pulse 5s infinite;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+@keyframes pulse {
+    0% {
+        color: #a3d663;
+    }
+    50% {
+        color: #da2975;
+    }
+
+    100% {
+        color: #a3d663;
+    }
+}
+
 #order-meal-app h1 {
     font-family: 'Lato', sans-serif;;
 }
@@ -434,6 +453,10 @@ a:hover{
 	color:#fff;
 	text-align:center;
 	
+}
+
+#footer-wrapper a {
+    color: #fff;
 }
 
 /* home page pop-up */

@@ -1,8 +1,12 @@
 		<div id="footer-wrapper">
             <div class="footer-wrapper-row">
-                <div id="footer-wrapper" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-sm-offset-0 col-md-offset-0 col-lg-offset-0" style="text-align: center; padding:50px;">
-                    Carmella's Cuisine is a licensed and insured catering company currently serving Salt Lake and Utah Counties 
-                    <p>801.550.1679 | carmellas.cuisine@gmail.com | <a href="<?php bloginfo('url'); ?>/key-vendors-partners">Key Vendors & Partners</a> </p>
+                <div id="footer-wrapper" class="vcard col-xs-12 col-sm-12 col-md-12 col-lg-12 col-sm-offset-0 col-md-offset-0 col-lg-offset-0" style="text-align: center; padding:50px;">
+                    <span class="org">Carmella's Cuisine</span> is a licensed and insured catering company currently serving Salt Lake and Utah Counties
+                    <p>
+                        <span class="phone">801.550.1679</span> | <span class="email">carmellas.cuisine@gmail.com</span>
+                        | <a href="<?php bloginfo('url'); ?>/key-vendors-partners">Key Vendors & Partners</a>
+                        | <span class="adr"><span class="street-address">12652 South 2700 West</span> <span class="locality">Riverton</span>, <span class="region">UT</span> <span class="postal-code">84065</span></span>
+                    </p>
                     <p>Copyright <?php echo date('Y'); ?> CarmellasCuisine.com. All rights reserved.</p>
              
                 </div>

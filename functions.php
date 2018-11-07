@@ -224,6 +224,9 @@ endif;
 						<h2>4<span class="hidden-xs hidden-sm">. Receive Confirmation Email</span></h2>
 					</div>
 				</div>
+				<div id="pick-up-location">
+					Pick-Up Address: <span class="adr"><span class="street-address">12652 South 2700 West</span> <span class="locality">Riverton</span>, <span class="region">UT</span> <span class="postal-code">84065</span></span>
+				</div>
 				<div id="order-meal-body-wrapper">
 					<div id="order-meal-step-1-body" class="order-meal-step-body">
 						<div class="row">
@@ -416,6 +419,10 @@ endif;
 	    	    		<tr>
 	    	    			<td><strong>Pick-Up Date: </strong></td>
 	    	    			<td>' . get_post_meta($post_id, 'pickup_date', true) . '</td>
+						</tr>
+						<tr>
+							<td><strong>Pick-Up Location: </strong></td>
+							<td><span class="adr"><span class="street-address">12652 South 2700 West</span> <span class="locality">Riverton</span>, <span class="region">UT</span> <span class="postal-code">84065</span></span></td>
 						</tr>
 	    	    		<tr>
 							<td><strong>Order #: </strong></td>

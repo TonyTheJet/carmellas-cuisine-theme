@@ -49,8 +49,8 @@
             <a href="<?php bloginfo('url'); ?>/order-meal-pick-up" class="btn btn-primary">Order Meal Pick-Up</a>
         </div>
         <div id="header-menu">
-            <div class="header-menu-item">
-                <i class="fa fa-phone"></i> &nbsp; 801-550-1670
+            <div class="header-menu-item phone">
+                <i class="fa fa-phone"></i> &nbsp; 801-550-1679
             </div>
             <div class="hidden-xs header-menu-item">
                 <i class="fa fa-envelope"></i> &nbsp; <a href="mailto:carmellascuisine@gmail.com">carmellascuisine@gmail.com </a>

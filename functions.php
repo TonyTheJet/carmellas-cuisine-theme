@@ -1,5 +1,13 @@
 <?php
 
+// redirect to https
+if(empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == "off" && bloginfo('url') === 'https://www.carmellascuisine.com'){
+	$redirect = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	header('HTTP/1.1 301 Moved Permanently');
+	header('Location: ' . $redirect);
+	exit();
+}
+
 
 //include classes
 include('model/HomePopUp.php');

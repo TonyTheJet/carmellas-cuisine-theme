@@ -227,6 +227,11 @@ endif;
 				<div id="pick-up-location">
 					Pick-Up Address: <span class="adr"><span class="street-address">12652 South 2700 West</span> <span class="locality">Riverton</span>, <span class="region">UT</span> <span class="postal-code">84065</span></span>
 				</div>
+				<div>
+					<p>
+						Pick up a meal for yourself, your family, or your business. Meals are hot and ready to eat! Complete the steps below to order ahead; payment is made via Venmo, cash, or credit card upon pick-up.
+					</p>
+				</div>
 				<div id="order-meal-body-wrapper">
 					<div id="order-meal-step-1-body" class="order-meal-step-body">
 						<div class="row">

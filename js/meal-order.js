@@ -177,12 +177,12 @@ MealOrder.prototype.load_step_2 = function(){
                 if (response.success){
                     var html_string = '';
                     for (var i = 0; i < response.pickup_date_items.length; i++){
-                        html_string += '<div class="meal-item col-xs-12 col-sm-6 col-md-4 col-lg-3" data-menu_item_id="' + response.pickup_date_items[i].basic_data.ID + '" data-bulk_price="' + response.pickup_date_items[i].bulk_price +'" data-minimum_bulk_price_quantity="' + response.pickup_date_items[i].minimum_bulk_price_quantity + '" data-price="' + response.pickup_date_items[i].price + '">';
-                        html_string +=      '<h3 class="meal-item-name">' + response.pickup_date_items[i].basic_data.post_title + '</h3>';
-                        html_string +=          '<div class="meal-item-img-wrapper" style="background-image: url(\'' +  response.pickup_date_items[i].thumbnail_url + '\')"></div>';
-                        html_string +=          '<div class="description">' + response.pickup_date_items[i].basic_data.post_content + '</div>';
+                        html_string += '<div class="meal-item col-xs-12 col-sm-6 col-md-4 col-lg-3"  itemscope itemtype="http://schema.org/Product" data-menu_item_id="' + response.pickup_date_items[i].basic_data.ID + '" data-bulk_price="' + response.pickup_date_items[i].bulk_price +'" data-minimum_bulk_price_quantity="' + response.pickup_date_items[i].minimum_bulk_price_quantity + '" data-price="' + response.pickup_date_items[i].price + '">';
+                        html_string +=      '<h3 itemprop="name" class="meal-item-name">' + response.pickup_date_items[i].basic_data.post_title + '</h3>';
+                        html_string +=          '<div class="meal-item-img-wrapper" itemprop="image" style="background-image: url(\'' +  response.pickup_date_items[i].thumbnail_url + '\')"></div>';
+                        html_string +=          '<div class="description" itemprop="description">' + response.pickup_date_items[i].basic_data.post_content + '</div>';
                         html_string +=          '<div class="price-wrapper">';
-                        html_string +=              '<div class="price">Price each: <strong>$' + response.pickup_date_items[i].price + '</strong></div>';
+                        html_string +=              '<div class="price">Price each: <strong  itemprop="price">$' + response.pickup_date_items[i].price + '</strong></div>';
                         if (parseFloat(response.pickup_date_items[i].price) > parseFloat(response.pickup_date_items[i].bulk_price)){
                             html_string +=          '<div class="price">Group price (qty ' + response.pickup_date_items[i].minimum_bulk_price_quantity + ' or more): <strong>$' + response.pickup_date_items[i].bulk_price + '</strong></div>';
                         }

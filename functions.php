@@ -189,7 +189,7 @@ endif;
 				$items_html = '';
 				foreach ($menu_items as $item_id):
 					$item = get_post($item_id);
-					$items_html .= '<li>' . $item->post_title . '</li>';
+					$items_html .= '<li itemscope itemtype="http://schema.org/Product"><span itemprop="name">' . $item->post_title . '</span></li>';
 				endforeach;
 
 				$pickup_dates_html .= '
@@ -392,7 +392,7 @@ endif;
     	    	var ajaxurl = "' . admin_url('admin-ajax.php') . '";
     	    	var stylesheet_directory = "' . get_bloginfo('stylesheet_directory') . '";
 			</script>
-    	    <script type="text/javascript" src="' . get_bloginfo('stylesheet_directory') . '/js/meal-order.js?v=1.0.3"></script>
+    	    <script type="text/javascript" src="' . get_bloginfo('stylesheet_directory') . '/js/meal-order.js?v=1.0.4"></script>
     	';
     }
 

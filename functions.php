@@ -168,7 +168,7 @@ endif;
 				add_post_meta($post_id, 'subtotal', $_POST['order']['subtotal']);
 				add_post_meta($post_id, 'total', $_POST['order']['total']);
 
-				wp_update_post(['ID' => $post_id, 'post_title' => '#' . $post_id . ': ' . $post_arr['post_title']]);
+				wp_update_post(['ID' => $post_id, 'post_title' => date('Y-m-d', strtotime($pick_up_date)) . '-#' . $post_id . ': ' . $post_arr['post_title']]);
 
 		        // send the email
 				cc_send_order_confirmation_emails($post_id);

@@ -20,6 +20,7 @@ add_theme_support('post-thumbnails');
 //shortcodes
 add_shortcode('add_page_featurettes', 'page_featurettes');
 add_shortcode('meal_order_page', 'cc_meal_order_page');
+add_shortcode('newsletter_sidebar', 'cc_newsletter_sidebar');
 add_shortcode('secondary_links', 'cc_secondary_links');
 
 //actions
@@ -644,6 +645,10 @@ endif;
     function cc_mail_from_name(){
     	return 'Carmella\'s Cuisine';
     }
+
+    function cc_newsletter_sidebar(){
+	    dynamic_sidebar(Sidebar::SIDEBAR_ID_NEWSLETTER);
+    }
     
     /**
     * renders a promotional overlay pop-up
@@ -727,6 +732,15 @@ endif;
     *
     */
    function cc_widgets_init() {
+
+	   register_sidebar( array(
+		   'name'          => 'Sample Menus Sidebar',
+		   'id'            => Sidebar::SIDEBAR_ID_NEWSLETTER,
+		   'before_widget' => '<div>',
+		   'after_widget'  => '</div>',
+		   'before_title'  => '<h2 class="rounded">',
+		   'after_title'   => '</h2>',
+	   ) );
 
        register_sidebar( array(
            'name'          => 'Sample Menus Sidebar',

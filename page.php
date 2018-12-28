@@ -29,7 +29,11 @@ Template Name: Home Page
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
-                                <?php dynamic_sidebar(Sidebar::SIDEBAR_ID_NEWSLETTER); ?>
+                                <?php
+                                    if (!in_array($_SERVER['REQUEST_URI'], ['/sg-subscription-success'])):
+                                        dynamic_sidebar(Sidebar::SIDEBAR_ID_NEWSLETTER);
+                                    endif;
+                                ?>
                             </div>
                         </div>
                     </div>    

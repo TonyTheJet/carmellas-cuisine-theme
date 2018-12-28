@@ -30,7 +30,15 @@ Template Name: Home Page
                         <div class="row">
                             <div class="col-xs-12">
                                 <?php
-                                    if (!in_array($_SERVER['REQUEST_URI'], ['/sg-subscription-success'])):
+                                    if (
+                                        !in_array(
+                                                $_SERVER['REQUEST_URI'],
+                                                [
+                                                    '/contact-us',
+                                                    '/sg-subscription-success'
+                                                ]
+                                        )
+                                    ):
                                         dynamic_sidebar(Sidebar::SIDEBAR_ID_NEWSLETTER);
                                     endif;
                                 ?>

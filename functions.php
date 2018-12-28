@@ -734,7 +734,7 @@ endif;
    function cc_widgets_init() {
 
 	   register_sidebar( array(
-		   'name'          => 'Sample Menus Sidebar',
+		   'name'          => 'Newsletter Sidebar',
 		   'id'            => Sidebar::SIDEBAR_ID_NEWSLETTER,
 		   'before_widget' => '<div>',
 		   'after_widget'  => '</div>',

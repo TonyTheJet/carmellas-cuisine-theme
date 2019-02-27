@@ -105,14 +105,22 @@ endif;
 	        $post = get_post((int) $_POST['post_id']);
     	    if (!empty($post) && $post->post_type === 'cc_meal_pickup_date'):
 		        $return_arr['pickup_date_date_string'] = get_post_meta($post->ID, 'pick_up_date', true);
-    	        $menu_items_for_date = get_post_meta($post->ID, 'menu_items_for_date', true);
+    	        $menu_item_ids_for_date = get_post_meta($post->ID, 'menu_items_for_date', true);
+    	        $menu_items_for_date = [];
+    	        foreach ($menu_item_ids_for_date as $post_id):
+	                $menu_items_for_date[] = get_post($post_id);
+	            endforeach;
+
+		        $menu_items_for_date = cc_sort_menu_item_array($menu_items_for_date);
+
+
     	        $i = 0;
-    	        foreach ($menu_items_for_date as $menu_item_id):
-    	            $return_arr['pickup_date_items'][$i]['basic_data'] = get_post($menu_item_id);
-    	            $return_arr['pickup_date_items'][$i]['bulk_price'] = get_post_meta($menu_item_id, 'bulk_price', true);
-		            $return_arr['pickup_date_items'][$i]['minimum_bulk_price_quantity'] = get_post_meta($menu_item_id, 'minimum_bulk_price_quantity', true);
-    	            $return_arr['pickup_date_items'][$i]['price'] = get_post_meta($menu_item_id, 'price', true);
-    	            $thumbnail_url = get_the_post_thumbnail_url($menu_item_id, 'post-thumbnail');
+    	        foreach ($menu_items_for_date as $post):
+    	            $return_arr['pickup_date_items'][$i]['basic_data'] = get_post($post->ID);
+    	            $return_arr['pickup_date_items'][$i]['bulk_price'] = get_post_meta($post->ID, 'bulk_price', true);
+		            $return_arr['pickup_date_items'][$i]['minimum_bulk_price_quantity'] = get_post_meta($post->ID, 'minimum_bulk_price_quantity', true);
+    	            $return_arr['pickup_date_items'][$i]['price'] = get_post_meta($post->ID, 'price', true);
+    	            $thumbnail_url = get_the_post_thumbnail_url($post->ID, 'post-thumbnail');
     	            if ($thumbnail_url !== false):
     	                $return_arr['pickup_date_items'][$i]['thumbnail_url'] = $thumbnail_url;
     	            else:
@@ -195,9 +203,17 @@ endif;
 			foreach ($pickup_dates as $pickup):
 				$date = get_field('pick_up_date', $pickup->ID, true);
 				$menu_items = get_field('menu_items_for_date', $pickup->ID, false);
+				$menu_item_objects = [];
 				$items_html = '';
 				foreach ($menu_items as $item_id):
 					$item = get_post($item_id);
+					$menu_item_objects[] = $item;
+				endforeach;
+
+				// sort the items
+				$menu_item_objects = cc_sort_menu_item_array($menu_item_objects);
+
+				foreach ($menu_item_objects as $item):
 					$items_html .= '<li itemscope itemtype="http://schema.org/Product"><span itemprop="name">' . $item->post_title . '</span></li>';
 				endforeach;
 
@@ -486,6 +502,29 @@ endif;
 		    endforeach;
 	    }
 
+    }
+
+/**
+ * @param WP_Post[] $menu_items
+ * @return WP_post[]
+ */
+    function cc_sort_menu_item_array($menu_items){
+    	$new_arr = [];
+
+    	// get all entrees first
+    	foreach ($menu_items as $key => $item):
+		    if (strpos($item->post_title, 'ENTREE') !== false):
+		        $new_arr[] = $item;
+		        unset($menu_items[$key]);
+		    endif;
+	    endforeach;
+
+	    // loop again to get everything else
+	    foreach ($menu_items as $key => $item):
+	        $new_arr[] = $item;
+	    endforeach;
+
+	    return $new_arr;
     }
 
     function cc_upcoming_pickup_dates(){

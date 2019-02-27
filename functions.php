@@ -527,6 +527,9 @@ endif;
 	    return $new_arr;
     }
 
+/**
+ * @return array
+ */
     function cc_upcoming_pickup_dates(){
     	$raw_posts = get_posts(
     		[
@@ -551,8 +554,7 @@ endif;
 	        endif;
 	    endforeach;
 
-	    // reverse the order of the array so the customer gets the earliest date first
-    	return array_reverse($filtered_posts);
+    	return $filtered_posts;
     }
 
     function cc_register_custom_posts(){

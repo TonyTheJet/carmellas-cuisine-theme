@@ -365,13 +365,13 @@ a:hover{
     padding: 0;
 }
 
-.pick-up-date:hover .pick-up-date-inner, .pick-up-date.selected .pick-up-date-inner {
-    background-color: #a3d663;
+.pick-up-date:hover .pick-up-date-inner/*, .pick-up-date.selected .pick-up-date-inner*/ {
+    background-color: #dfdfdf;
 }
 
 .pick-up-date-inner {
-    background-color: #ababab;
-    color: #fff;
+    background-color: #eaeaea;
+    color: #333;
     cursor: pointer;
     min-height: 260px;
     padding: 16px;
@@ -379,6 +379,7 @@ a:hover{
 
 .pick-up-date h3 {
     font-family: 'Lato', sans-serif;
+    font-size: 14px;
 }
 
 #order-meal-body-wrapper {
@@ -429,11 +430,11 @@ a:hover{
 /* mobile styles */
 @media screen and (max-width: 600px){
     .order-meal-step-body .pick-up-date h2 {
-        font-size: 16px;
+        font-size: 18px;
     }
 
     .order-meal-step-body .pick-up-date h3 {
-        font-size: 14px;
+        font-size: 16px;
     }
 }
 

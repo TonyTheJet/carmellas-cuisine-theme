@@ -106,6 +106,7 @@ MealOrder.prototype.attach_pickup_date_event_handlers = function(){
         }
 
         this_ref.step_1_refresh_validation();
+        this_ref.jump_to_step(2);
     });
 };
 

@@ -202,11 +202,11 @@ endif;
 				endforeach;
 
 				$pickup_dates_html .= '
-					<div class="pick-up-date col-xs-6 col-sm-4 col-md-3" data-date_id="' . $pickup->ID .'" data-date_string="' . $date . '">
+					<div class="pick-up-date col-xs-12 col-sm-6 col-md-4" data-date_id="' . $pickup->ID .'" data-date_string="' . $date . '" title="Click to select">
 						<div class="pick-up-date-inner">
-							<h2>' . $date . '</h2>
-							<div class="pick-up-date-options hidden-xs hidden-sm">
-								<h3>Menu Options</h3>
+							<button class="btn btn-primary center-block">Select Food Options</button>
+							<div class="pick-up-date-options">
+								<h3>Menu Options for ' . $date . '</h3>
 								<ul>
 									' . $items_html . '
 								</ul>
@@ -238,7 +238,7 @@ endif;
 				</div>
 				<div>
 					<p>
-						Pick up a meal for yourself, your family, or your business. Meals are hot and ready to eat! Complete the steps below to order ahead; payment is made via Venmo, cash, or credit card upon pick-up.
+						Pick up a meal for yourself, your family, or your business. Complete the steps below to order ahead; payment is made via Venmo, cash, or credit card upon pick-up.
 					</p>
 				</div>
 				<div id="order-meal-body-wrapper">
@@ -246,19 +246,19 @@ endif;
 						<div class="row">
 							<div class="col-xs-12">
 								<h1>Choose a Meal Pick-Up Date</h1>
-								<div class="row continue-btn-row">
+								<!--<div class="row continue-btn-row">
 									<div class="col-xs-12 text-right">
 										<button type="button" class="btn btn-primary load-step step-1-continue-btn" data-load_step="2" disabled>Continue</button>
 									</div>
-								</div>
+								</div>-->
 							</div>
 							' . $pickup_dates_html . '
 						</div>
-						<div class="row continue-btn-row">
+						<!--<div class="row continue-btn-row">
 							<div class="col-xs-12 text-right">
 								<button type="button" class="btn btn-primary load-step step-1-continue-btn" data-load_step="2" disabled>Continue</button>
 							</div>
-						</div>
+						</div>-->
 					</div>
 					<div id="order-meal-step-2-body" class="order-meal-step-body hidden">
 						<div class="row">
@@ -492,7 +492,7 @@ endif;
     	$raw_posts = get_posts(
     		[
     			'numberposts' => 100,
-    			'order' => 'DESC',
+    			'order' => 'ASC',
     			'orderby' => 'date',
     			'post_status' => 'publish',
     			'post_type' => 'cc_meal_pickup_date'

@@ -422,7 +422,7 @@ endif;
     	    	var ajaxurl = "' . admin_url('admin-ajax.php') . '";
     	    	var stylesheet_directory = "' . get_bloginfo('stylesheet_directory') . '";
 			</script>
-    	    <script type="text/javascript" src="' . get_bloginfo('stylesheet_directory') . '/js/meal-order.js?v=1.1.0"></script>
+    	    <script type="text/javascript" src="' . get_bloginfo('stylesheet_directory') . '/js/meal-order.js?v=1.1.1"></script>
     	';
     }
 

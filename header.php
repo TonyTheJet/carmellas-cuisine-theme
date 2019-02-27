@@ -45,9 +45,11 @@
             <script src="https://www.fbgcdn.com/widget/js/ewm2.js" defer async ></script>
 		</div>
 	<?php endif; ?>
-        <div id="order-pick-up-link-wrapper">
-            <a href="<?php bloginfo('url'); ?>/order-meal-pick-up" class="btn btn-primary">Order Meal Pick-Up</a>
-        </div>
+        <?php if (strpos($_SERVER['REQUEST_URI'], 'order-meal-pick-up') === false): ?>
+            <div id="order-pick-up-link-wrapper">
+                <a href="<?php bloginfo('url'); ?>/order-meal-pick-up" class="btn btn-primary">Order Meal Pick-Up</a>
+            </div>
+        <?php endif; ?>
         <div id="header-menu">
             <div class="header-menu-item phone">
                 <i class="fa fa-phone"></i> &nbsp; 801-550-1679

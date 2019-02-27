@@ -129,6 +129,14 @@ MealOrder.prototype.attach_step_event_handlers = function(){
  */
 MealOrder.prototype.jump_to_step = function(step){
 
+    // scroll to top of page
+    $('html,body').animate(
+        {
+            scrollTop: 0
+        },
+        400
+    );
+
     // set the header
     $('.order-meal-step').removeClass('active');
     $('#order-meal-step-' + step).addClass('active');

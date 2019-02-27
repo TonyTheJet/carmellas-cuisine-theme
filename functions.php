@@ -76,7 +76,7 @@ endif;
 				foreach ($pages_arr as $page):
 					
 					//check if it has a featured image
-					$image = wp_get_attachment_image_src(get_post_thumbnail_id($page->ID), [800, 600] );
+					$image = wp_get_attachment_image_src(get_post_thumbnail_id($page->ID), 'large' );
 					
 					$html .= '<div class="col-xs-12 col-sm-4">';
 						if (!empty($image)):

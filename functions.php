@@ -532,7 +532,7 @@ endif;
     		[
     			'numberposts' => 100,
     			'order' => 'ASC',
-    			'orderby' => 'date',
+    			'orderby' => 'title',
     			'post_status' => 'publish',
     			'post_type' => 'cc_meal_pickup_date'
 		    ]

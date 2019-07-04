@@ -98,11 +98,11 @@ a:hover{
 }
 
 .secondary-page-top-nav li{
-	float: left;
+    display: inline-block;
 	list-style-type: none;
-        padding: 0 22px 0 22px;
-        position: relative;
-        color: #000;
+    padding: 0 22px 0 22px;
+    position: relative;
+    color: #000;
 }
 
 .home-menu-wrapper {
@@ -165,16 +165,18 @@ a:hover{
 .secondary-page-top-nav li:hover ul{
     display: block;
     color: #000;
+    min-width: 180px;
 }
 
 .secondary-page-top-nav li ul li {
     display: block;
     margin-right: none;
     padding-right: none;
-    text-align: center;
+    text-align: left;
+    font-size: 14px;
     width: 100%;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
     color: #000; 
 }
 
@@ -182,7 +184,7 @@ a:hover{
     display: block;
     height: 100%;
     margin: 0;
-    padding: 8px;
+    padding: 4px;
     text-decoration: none;
     width: 100%;
     color: #000;
@@ -504,6 +506,10 @@ a:hover{
     right: 16px;
     top: 26px;
     z-index: 9999;
+}
+
+#order-pick-up-link-wrapper a {
+    font-size: 20px;
 }
 
 .logged-in #order-pick-up-link-wrapper {

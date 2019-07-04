@@ -502,8 +502,8 @@ a:hover{
 
 #order-pick-up-link-wrapper {
     position: fixed;
-    right: 16px;
-    top: 26px;
+    right: 40px;
+    top: 55px;
     z-index: 9999;
 }
 
@@ -512,7 +512,7 @@ a:hover{
 }
 
 .logged-in #order-pick-up-link-wrapper {
-    top: 40px;
+    top: 65px;
 }
 
 /* gloria food button */

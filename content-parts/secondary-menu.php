@@ -1,4 +1,4 @@
-<div class="<?php if (is_front_page()): ?>home-menu-wrapper<?php else: ?>secondary-menu-wrapper<?php endif; ?>">
+<div id="secondary-menu-wrapper" class="<?php if (is_front_page()): ?>home-menu-wrapper<?php else: ?>secondary-menu-wrapper<?php endif; ?> hidden-xs">
     <?php
         wp_nav_menu(
             array(

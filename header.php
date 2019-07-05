@@ -1,3 +1,6 @@
+<?php
+    global $post;
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -21,10 +24,12 @@
 		<link rel="icon" type="image/png" sizes="96x96" href="<?php bloginfo('stylesheet_directory'); ?>/images/favicon/favicon-96x96.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="<?php bloginfo('stylesheet_directory'); ?>/images/favicon/favicon-16x16.png">
 		<link rel="manifest" href="<?php bloginfo('stylesheet_directory'); ?>/manifest.json">
-		<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory'); ?>/style.css?v=1.1.5">
+		<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory'); ?>/style.css?v=1.2.0">
 		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 		<script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/bootstrap/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="<?php bloginfo ('stylesheet_directory'); ?>/css/font-awesome.min.css">
+        <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/top-menu.js?v=1.0.0"></script>
+        <script src="https://use.fontawesome.com/f37c422ef2.js"></script>
+
 
         <?php wp_head(); ?> 
         <?php if (!is_user_logged_in()): ?>
@@ -37,7 +42,7 @@
 		<?php endif; ?>   
 
 	</head> 
-	<body class="<?php if (is_user_logged_in()): ?>logged-in<?php endif; ?>">
+	<body class="<?php if (is_user_logged_in()): ?>logged-in<?php endif; ?> post-<?php echo $post->post_name; ?>">
 	<?php if (1 == 2): ?>
 		<div id="gloria-food-wrapper">
             <!-- If you would like to customize the button, remove or change the "class" attribute inside the <span> tag -->
@@ -58,10 +63,13 @@
                 <i class="fa fa-envelope"></i> &nbsp; <a href="mailto:carmellascuisine@gmail.com">carmellascuisine@gmail.com </a>
             </div>
             <div class="header-menu-item">
-                <i class="fa fa-list-alt"></i> &nbsp; <a href="http://www.carmellascuisine.com/contact-us">contact </a>
+                <i class="fa fa-list-alt"></i> &nbsp; <a href="<?php bloginfo('url'); ?>/contact-us">contact </a>
+            </div>
+            <div class="header-menu-item">
+                <a href="<?php bloginfo('url'); ?>"><i class="fa fa-home"></i></a>
             </div>
         </div>
-        <div id="header" class="container-fluid">
+        <div id="header">
             <?php if (is_front_page()): ?>
 	            <div id="masthead" class="col-xs-12">
 	                <img src="<?php bloginfo('stylesheet_directory'); ?>/images/header_pic_home.jpg" class="img-responsive hidden-xs hidden-sm hidden-md" alt="Welcome to Carmella's Cuisine">
@@ -72,6 +80,7 @@
 	            </div>
             <?php endif; ?>
                 <div id="secondary-masthead" class="col-xs-12 text-center">
+                    <span id="secondary-menu-toggle-wrapper" class="visible-xs"><i class="fa fa-bars"></i></span>
                 	<?php get_template_part('content-parts/secondary-menu'); ?>
                 </div>
             <?php if (!is_front_page()): ?>

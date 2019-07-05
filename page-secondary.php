@@ -11,14 +11,12 @@ while ( have_posts() ) : the_post();
 
 			<div class="col-xs-12 col-sm-10 col-lg-8 col-sm-offset-1 col-lg-offset-2">
 				<div id="secondary-page-title" class="row">
-
-
-					<h1 class="col-xs-12"><?php the_title(); ?></h1>
-
-
+                    <div class="col-xs-12">
+                        <h1 class="col-xs-12"><?php the_title(); ?></h1>
+                    </div>
 				</div>
 				<div class="row">
-					<div>
+					<div class="col-xs-12">
 						<?php the_content(); ?>
 					</div>
 				</div>

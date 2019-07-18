@@ -7,7 +7,7 @@ $(document).ready(function(){
 function MealOrder(app_root){
 
     // constants
-    this.TAX_RATE = 0.081;
+    this.TAX_RATE = 0.0825;
     // end constants
 
     this.app_root = app_root;

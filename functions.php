@@ -536,6 +536,7 @@ endif;
     			'numberposts' => 100,
     			'order' => 'ASC',
     			'orderby' => 'title',
+    			'posts_per_page' => 100,
     			'post_status' => 'publish',
     			'post_type' => 'cc_meal_pickup_date'
 		    ]

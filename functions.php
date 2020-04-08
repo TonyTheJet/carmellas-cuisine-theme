@@ -531,12 +531,12 @@ endif;
  * @return array
  */
     function cc_upcoming_pickup_dates(){
+    	global $wpdb;
     	$raw_posts = get_posts(
     		[
     			'numberposts' => 100,
-    			'order' => 'ASC',
+    			'order' => 'DESC',
     			'orderby' => 'title',
-    			'posts_per_page' => 100,
     			'post_status' => 'publish',
     			'post_type' => 'cc_meal_pickup_date'
 		    ]
@@ -551,9 +551,11 @@ endif;
 
 	        $last_pickup_datetime = new DateTime(get_field('orderby_date_time', $post->ID, false), new DateTimeZone(get_option('timezone_string')));
 	        if ($last_pickup_datetime->getTimestamp() > time()):
-		        $filtered_posts[] = $post;
+		        $filtered_posts[$post->post_title] = $post;
 	        endif;
 	    endforeach;
+
+	    ksort($filtered_posts);
 
     	return $filtered_posts;
     }
